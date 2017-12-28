@@ -6,5 +6,9 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(req):
-    user = User.objects.get(id=41)
-    return HttpResponse(recommend_quote(user))
+    user = User.objects.get(name="Eve")
+    quote = recommend_quote(user)
+    ctx = {
+        'quote': quote
+    }
+    return render(req, 'daily_quote/index.html', ctx)
