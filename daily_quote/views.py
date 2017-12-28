@@ -6,4 +6,5 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(req):
-    return HttpResponse()
+    user = User.objects.get(id=41)
+    return HttpResponse(recommend_quote(user))
