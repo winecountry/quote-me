@@ -14,6 +14,24 @@ def create_quote(author, text):
     return quote
 
 
+def get_quotes():
+    import json
+    from daily_quote.models import Quote
+
+    with open('data/quotes.json', 'r') as data:
+        quotes = []
+        data_json = json.loads(data.read())
+        for author in data_json:
+            print(author['name'])
+            for quote_obj in author['quotes']:
+                print('.', end='')
+                quote = Quote(author=author['name'], text=quote_obj['quote_string'])
+                quote.save()
+                quotes.append(quote)
+            print()
+        return quotes
+
+
 def create_ranked(user, quote, rank=0):
     ranked = Ranked(user=user, quote=quote, rank=rank)
     ranked.save()
@@ -21,17 +39,19 @@ def create_ranked(user, quote, rank=0):
 
 
 def seed():
+    """
+    https://stackoverflow.com/questions/33259477/table-was-deleted-how-can-i-make-django-recreate-it
+    :return:
+    """
+
+    # clear all users and quotes
     Ranked.objects.all().delete()
     User.objects.all().delete()
-    Quote.objects.all().delete()
-    users = ['Alice', 'Bob', 'Eve', 'John', 'Paul', 'George', 'Ringo']
-    author = ['Gary S.', 'Jim W.', 'Taylor A.', 'Jerry M.', 'Tim Q.',
-              'Tony H.', 'Joe S.', 'Ben G.', 'Chris P.', 'Larry N.']
-    texts = ['Quote 1', 'Quote 2', 'Quote 3', 'Quote 4', 'Quote 5',
-             'Quote 6', 'Quote 7', 'Quote 8', 'Quote 9', 'Quote 10']
+    # Quote.objects.all().delete()
+
+    users = ['Alice', 'Bob', 'Eve', 'John', 'Paul', 'George', 'Ringo', 'Pete', 'Rathgar', 'Steve', 'Robert']
+    quotes = Quote.objects.all()
     ranks = [-1, 0, 1]
-    users = map(create_user, users)
-    quotes = list(map(lambda t: create_quote(t[0], t[1]), zip(author, texts)))
-    for user in users:
-        for quote in choices(quotes, k=randint(0, 8)):
+    for user in map(create_user, users):
+        for quote in choices(quotes, k=randint(1, 2000)):
             create_ranked(user, quote, rank=choice(ranks))
