@@ -1,0 +1,32 @@
+html {
+    background-color: antiquewhite;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#quote_container {
+    max-width: 65vw;
+    color: darkslategrey;
+    background-color: powderblue;
+    border-radius: 5%;
+    overflow: hidden;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
+}
+
+#quote_container blockquote {
+    padding: 40px;
+    margin: 0;
+    font-size: 1.8em;
+}
+
+#quote_container #author {
+    padding: 10px 20px;
+    font-size: 1.3em;
+    color: aliceblue;
+    background-color: steelblue;
+}

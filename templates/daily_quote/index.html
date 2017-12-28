@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'daily_quote/main.css' %}">
     <title>Daily Quote</title>
 </head>
 <body>
-<blockquote>{{ quote.text }}</blockquote>
-<div id="author">{{ quote.author }}</div>
+<div id="quote_container">
+    <blockquote>{{ quote.text }}</blockquote>
+    <div id="author">&mdash; {{ quote.author }}</div>
+</div>
 </body>
 </html>
