@@ -7,9 +7,16 @@
     <title>Daily Quote</title>
 </head>
 <body>
-<div id="quote_container">
-    <blockquote>{{ quote.text }}</blockquote>
-    <div id="author">&mdash; {{ quote.author }}</div>
-</div>
+<h1>Quote of the Day</h1>
+<main>
+    <div id="quote_container">
+        <blockquote>{{ quote.text }}</blockquote>
+        <div id="author">&mdash; {{ quote.author }}</div>
+    </div>
+    <div class="rank">
+        <button id="like">+</button>
+        <button id="dislike">-</button>
+    </div>
+</main>
 </body>
 </html>
