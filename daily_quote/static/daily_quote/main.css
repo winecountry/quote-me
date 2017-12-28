@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Courgette|Lobster');
+
 body {
     display: flex;
     flex-direction: column;
@@ -12,10 +14,11 @@ h1 {
     margin-top: 100px;
     margin-left: 50px;
     font-size: 3em;
+    font-family: 'Lobster', cursive;
     color: saddlebrown;
     padding-bottom: 10px;
     width: 33vw;
-    border-bottom: 4px solid saddlebrown;
+    border-bottom: 5px double saddlebrown;
 }
 
 main {
@@ -23,6 +26,7 @@ main {
 }
 
 #quote_container {
+    font-family: 'Courgette', cursive;
     max-width: 65vw;
     color: darkslategrey;
     background-color: powderblue;
