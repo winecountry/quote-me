@@ -26,4 +26,4 @@ class Ranked(Model):
     rank = IntegerField()
 
     def __str__(self):
-        return "{} -> {} ({}) | ".format(self.user, self.quote, self.rank)
+        return "{} -> {} ({})".format(self.user, self.quote, self.rank)
