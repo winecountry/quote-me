@@ -2,8 +2,8 @@ from random import choice, choices, randint
 from .models import User, Quote, Ranked
 
 
-def create_user(name):
-    user = User(name=name)
+def create_user(username):
+    user = User(username=username)
     user.save()
     return user
 
@@ -22,10 +22,10 @@ def get_quotes():
         quotes = []
         data_json = json.loads(data.read())
         for author in data_json:
-            print(author['name'])
+            print(author['username'])
             for quote_obj in author['quotes']:
                 print('.', end='')
-                quote = Quote(author=author['name'], text=quote_obj['quote_string'])
+                quote = Quote(author=author['username'], text=quote_obj['quote_string'])
                 quote.save()
                 quotes.append(quote)
             print()

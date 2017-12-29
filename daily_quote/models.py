@@ -1,4 +1,5 @@
 from django.db.models import Model, CharField, TextField, IntegerField, ManyToManyField, ForeignKey
+from django.contrib.auth.models import AbstractUser
 
 
 class Quote(Model):
@@ -10,14 +11,11 @@ class Quote(Model):
         return '"{}" - {}'.format(self.text, self.author)
 
 
-class User(Model):
-    name = CharField(max_length=30)
-    # password = CharField(max_length=50)
-    # salt = CharField(max_length=10)
+class User(AbstractUser):
     quotes = ManyToManyField(Quote, through='Ranked')
 
     def __str__(self):
-        return self.name
+        return self.username
 
 
 class Ranked(Model):
