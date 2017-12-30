@@ -22,14 +22,18 @@ def get_quotes():
         quotes = []
         data_json = json.loads(data.read())
         for author in data_json:
-            print(author['username'])
+            print(author['name'])
             for quote_obj in author['quotes']:
                 print('.', end='')
-                quote = Quote(author=author['username'], text=quote_obj['quote_string'])
+                quote = Quote(author=author['name'], text=quote_obj['quote_string'])
                 quote.save()
                 quotes.append(quote)
             print()
         return quotes
+
+
+def inject_failure():
+    Quote(author='Tony Hoare', text="This has led to innumerable errors, vulnerabilities, and system crashes.").save()
 
 
 def create_ranked(user, quote, rank=0):
@@ -55,3 +59,5 @@ def seed():
     for user in map(create_user, users):
         for quote in choices(quotes, k=randint(1, 2000)):
             create_ranked(user, quote, rank=choice(ranks))
+
+    # inject_failure()
