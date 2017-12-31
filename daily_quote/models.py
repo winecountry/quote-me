@@ -1,4 +1,4 @@
-from django.db.models import Model, CharField, TextField, IntegerField, ManyToManyField, ForeignKey
+from django.db.models import Model, CharField, TextField, IntegerField, ManyToManyField, ForeignKey, PROTECT
 from django.contrib.auth.models import AbstractUser
 
 
@@ -19,8 +19,8 @@ class User(AbstractUser):
 
 
 class Ranked(Model):
-    user = ForeignKey(User)
-    quote = ForeignKey(Quote)
+    user = ForeignKey(User, on_delete=PROTECT)
+    quote = ForeignKey(Quote, on_delete=PROTECT)
     rank = IntegerField()
 
     def __str__(self):
