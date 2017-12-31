@@ -42,7 +42,7 @@ def create_ranked(user, quote, rank=0):
     return ranked
 
 
-def seed():
+def seed(with_quotes=False):
     """
     https://stackoverflow.com/questions/33259477/table-was-deleted-how-can-i-make-django-recreate-it
     :return:
@@ -51,13 +51,13 @@ def seed():
     # clear all users and quotes
     Ranked.objects.all().delete()
     User.objects.all().delete()
-    # Quote.objects.all().delete()
+    if with_quotes:
+        Quote.objects.all().delete()
+        inject_failure()
 
     users = ['Alice', 'Bob', 'Eve', 'John', 'Paul', 'George', 'Ringo', 'Pete', 'Rathgar', 'Steve', 'Robert']
-    quotes = Quote.objects.all()
+    quotes = get_quotes() if with_quotes else Quote.objects.all()
     ranks = [-1, 0, 1]
     for user in map(create_user, users):
         for quote in choices(quotes, k=randint(1, 2000)):
             create_ranked(user, quote, rank=choice(ranks))
-
-    # inject_failure()
