@@ -2,13 +2,17 @@
 ### The daily quote recommender
 
 ## Set up local database
+### Install postgres
+
+    $ brew install postgresql
+
+From the root of the repository, run
 
     $ createdb quote_db
     $ psql -d quote_db -f db_init.sql
 
 ### Seed the database
-
-* Open `/daily_quote/views.py`
+* Open `daily_quote/views.py`
 * Uncomment the first line in the `index` view so that you see
 
 
