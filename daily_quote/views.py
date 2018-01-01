@@ -6,7 +6,7 @@ from .models import User, Quote, Ranked
 
 # Create your views here.
 def index(req):
-    seed(with_quotes=True)
+    # seed(with_quotes=True)
     user = User.objects.get(username="Alice")
     quote = recommend_quote(user)
     ctx = {
