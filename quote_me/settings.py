@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'quote_me',
     'daily_quote',
 ]
 
@@ -86,9 +87,6 @@ DATABASES = {
         'PORT': '',
     }
 }
-
-# Custom user model
-AUTH_USER_MODEL = 'daily_quote.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

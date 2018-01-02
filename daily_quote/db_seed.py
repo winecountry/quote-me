@@ -1,11 +1,21 @@
 from random import choice, choices, randint
-from .models import User, Quote, Ranked
+
+from django.contrib.auth.models import User
+
+from quote_me.models import Profile
+from .models import Author, Quote, QuoteRank
 
 
 def create_user(username):
     user = User(username=username)
     user.save()
     return user
+
+
+def create_profile(user):
+    profile = Profile(user=user)
+    profile.save()
+    return profile
 
 
 def create_quote(author, text):
@@ -21,11 +31,12 @@ def get_quotes():
     with open('data/quotes.json', 'r') as data:
         quotes = []
         data_json = json.loads(data.read())
-        for author in data_json:
-            print(author['name'])
-            for quote_obj in author['quotes']:
+        for author_obj in data_json:
+            author = Author.objects.create(name=author_obj['name'], profession=author_obj['profession'])
+            print(author.name)
+            for quote_obj in author_obj['quotes']:
                 print('.', end='')
-                quote = Quote(author=author['name'], text=quote_obj['quote_string'])
+                quote = Quote(author=author, text=quote_obj['quote_string'])
                 quote.save()
                 quotes.append(quote)
             print()
@@ -33,11 +44,12 @@ def get_quotes():
 
 
 def inject_failure():
-    Quote(author='Tony Hoare', text="This has led to innumerable errors, vulnerabilities, and system crashes.").save()
+    tony = Author.objects.create(name='Tony Hoare', profession='Programmer')
+    Quote(author=tony, text="This has led to innumerable errors, vulnerabilities, and system crashes.").save()
 
 
-def create_ranked(user, quote, rank=0):
-    ranked = Ranked(user=user, quote=quote, rank=rank)
+def create_ranked(profile, quote, rank=0):
+    ranked = QuoteRank(profile=profile, quote=quote, rank=rank)
     ranked.save()
     return ranked
 
@@ -49,7 +61,7 @@ def seed(with_quotes=False):
     """
 
     # clear all users and quotes
-    Ranked.objects.all().delete()
+    QuoteRank.objects.all().delete()
     User.objects.all().delete()
     if with_quotes:
         Quote.objects.all().delete()
@@ -58,6 +70,6 @@ def seed(with_quotes=False):
     users = ['Alice', 'Bob', 'Eve', 'John', 'Paul', 'George', 'Ringo', 'Pete', 'Rathgar', 'Steve', 'Robert']
     quotes = get_quotes() if with_quotes else Quote.objects.all()
     ranks = [-1, 0, 1]
-    for user in map(create_user, users):
+    for user in map(create_profile, [create_user(user) for user in users]):
         for quote in choices(quotes, k=randint(1, 2000)):
             create_ranked(user, quote, rank=choice(ranks))
