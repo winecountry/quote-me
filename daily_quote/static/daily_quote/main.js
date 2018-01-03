@@ -3,9 +3,7 @@ var state = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    get_csrf_token();
     recommend_quote();
-    console.log("DOM Content Loaded");
     var like_button = document.getElementById('like');
     var dislike_button = document.getElementById('dislike');
     like_button.addEventListener('click', like_quote);
@@ -24,7 +22,6 @@ function recommend_quote() {
         state.quote_id = data.id;
         quote_string.innerHTML = data.text;
         author.innerHTML += data.author.name;
-        console.log(data);
     };
 
     request.send();
