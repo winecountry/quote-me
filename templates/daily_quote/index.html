@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     {% load static %}
     <link rel="stylesheet" href="{% static 'daily_quote/main.css' %}">
+    <script type="text/javascript" src="{% static 'daily_quote/main.js' %}"></script>
     <title>Daily Quote</title>
 </head>
 <body>
 <h1>Quote of the Day</h1>
 <main>
     <div id="quote_container">
-        <blockquote>{{ quote.text }}</blockquote>
-        <div id="author">&mdash; {{ quote.author }}</div>
+        <blockquote id="quote_string"></blockquote>
+        <div id="author">&mdash; </div>
     </div>
     <div class="rank">
         <button id="like">+</button>
