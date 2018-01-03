@@ -9,6 +9,9 @@ class Author(models.Model):
     name = models.CharField(max_length=45)
     profession = models.CharField(max_length=45)
 
+    def __str__(self):
+        return self.name
+
 
 class Quote(models.Model):
     author = models.ForeignKey(Author, on_delete=models.PROTECT)
@@ -21,7 +24,7 @@ class Quote(models.Model):
         return quote
 
     def __str__(self):
-        return '"{}" - {}'.format(self.text, self.author)
+        return '"{}" - {}'.format(self.text, self.author.name)
 
 
 class QuoteRank(models.Model):
@@ -53,11 +56,12 @@ def recommend_quote(profile):
         # Find other users who like that quote
         profiles = Profile.objects.filter(quoterank__quote=quote, quoterank__rank=1).exclude(id=profile.id)
         # Find other quotes those users like (excluding quotes the user has already seen)
-        quotes = Quote.objects.filter(profile__user__in=profiles, quoterank__rank=1).distinct()\
-                              .exclude(id=quote.id, profile__user__quotes=profile_quotes)
+        quotes = Quote.objects.filter(profile__in=profiles, quoterank__rank=1).distinct()\
+                              .exclude(id=quote.id, profile__quotes=profile_quotes)
         # Return one at random
         return choice(quotes)
     except IndexError:
-        print("NO SIMILAR QUOTES FOUND: Defaulting to random selection...", random_row())
-        return random_row()
+        quote = random_row()
+        print("NO SIMILAR QUOTES FOUND: Defaulting to random selection...", quote)
+        return quote
 
