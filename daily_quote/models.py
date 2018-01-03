@@ -15,8 +15,10 @@ class Quote(models.Model):
     text = models.TextField()
 
     @staticmethod
-    def recommend(user=None):
-        return recommend_quote(user)
+    def recommend(profile=None):
+        quote = recommend_quote(profile)
+        QuoteRank(profile=profile, quote=quote, rank=0).save()
+        return quote
 
     def __str__(self):
         return '"{}" - {}'.format(self.text, self.author)
@@ -37,22 +39,22 @@ def random_row():
     return Quote.objects.get(pk=pk)
 
 
-def recommend_quote(user):
-    if user is None:
-        print("NO USER SPECIFIED: Defaulting to random selection...")
+def recommend_quote(profile):
+    if profile is None:
+        print("NO PROFILE SPECIFIED: Defaulting to random selection...")
         return random_row()
 
     try:
         # Get all quotes the user likes
-        user_quotes = Quote.objects.filter(profile__user=user)
-        user_liked_quotes = user_quotes.filter(quoterank__rank=1)
+        profile_quotes = Quote.objects.filter(profile=profile)
+        profile_liked_quotes = profile_quotes.filter(quoterank__rank=1)
         # Pick a random quote the user likes
-        quote = choice(user_liked_quotes)
+        quote = choice(profile_liked_quotes)
         # Find other users who like that quote
-        users = Profile.objects.filter(quoterank__quote=quote, quoterank__rank=1).exclude(user=user)
+        profiles = Profile.objects.filter(quoterank__quote=quote, quoterank__rank=1).exclude(id=profile.id)
         # Find other quotes those users like (excluding quotes the user has already seen)
-        quotes = Quote.objects.filter(profile__user__in=users, quoterank__rank=1).distinct()\
-                              .exclude(id=quote.id, profile__user__quotes=user_quotes)
+        quotes = Quote.objects.filter(profile__user__in=profiles, quoterank__rank=1).distinct()\
+                              .exclude(id=quote.id, profile__user__quotes=profile_quotes)
         # Return one at random
         return choice(quotes)
     except IndexError:
