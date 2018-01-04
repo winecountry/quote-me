@@ -6,7 +6,7 @@ body {
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
-    background-color: #1b3249;
+    background-color: whitesmoke;
 }
 
 h1 {
@@ -15,10 +15,10 @@ h1 {
     margin-left: 50px;
     font-size: 3em;
     font-family: 'Railway', cursive;
-    color: aliceblue;
+    color: #1b3249;
     padding-bottom: 10px;
     width: 33vw;
-    border-bottom: 5px double aliceblue;
+    border-bottom: 5px double #1b3249;
 }
 
 main {
@@ -28,9 +28,10 @@ main {
 #quote_container {
     font-family: 'Playfair Display', cursive;
     max-width: 65vw;
-    color: aliceblue;
-    background-color: rgba(153, 169, 217, 0.8);
-    border: 2px solid aliceblue;
+    color: #1b3249;
+    background-color: rgba(248, 248, 255, 0.8);
+    border: 2px solid #1b3249;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
     overflow: hidden;
 }
 
@@ -46,7 +47,7 @@ main {
 #quote_container #author {
     padding: 10px 20px;
     font-size: 1.3em;
-    color: aliceblue;
+    color: ghostwhite;
     background-color: steelblue;
 }
 
@@ -61,8 +62,7 @@ main {
 .rank button {
     width: 110px;
     height: 110px;
-    background-color: aliceblue;
-    color: ghostwhite;
+    background-color: ghostwhite;
     font-size: 3em;
     border-radius: 50%;
 }
@@ -73,5 +73,25 @@ main {
 
 .rank #dislike {
     background-image: url("images/SVG/dislike.svg");
+}
+
+.rank #like:active {
+    background: forestgreen url("images/SVG/like-active.svg");
+}
+
+.rank #dislike:active {
+    background: #cc1111 url("images/SVG/dislike-active.svg");
+}
+
+.rank button:disabled {
+    background-color: ghostwhite;
+}
+
+.rank #like:disabled {
+    background-image: url("images/SVG/like-disabled.svg");
+}
+
+.rank #dislike:disabled {
+    background-image: url("images/SVG/dislike-disabled.svg");
 }
 

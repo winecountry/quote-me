@@ -1,16 +1,33 @@
-var state = {
-    'quote_id': null,
-};
-
+// Document ready function
 document.addEventListener('DOMContentLoaded', function () {
-    recommend_quote();
+    recommend_quote();  // GET Quote
+
     var like_button = document.getElementById('like');
+    // PUT QuoteRank
+    like_button.addEventListener('click', function () {
+        rank_quote(1);
+        this.style.backgroundColor = rgba(34, 139, 34, 0.6);
+    });
+
     var dislike_button = document.getElementById('dislike');
-    like_button.addEventListener('click', like_quote);
-    dislike_button.addEventListener('click', dislike_quote);
+    // PUT QuoteRank
+    dislike_button.addEventListener('click', function () {
+        rank_quote(-1);
+        this.style.backgroundColor = rgba(204, 17, 17, 0.6);
+        this.style.backgroundOpacity = 0.6;
+    });
 });
 
+var state = {
+    'quote_id': null
+};
+
 function recommend_quote() {
+    /** GET Quote
+     * Populate the quote container with a recommended quote
+     */
+
+    // New AJAX request
     var request = new XMLHttpRequest();
 
     request.open('GET', 'http://localhost:8000/daily_quote/api/recommend');
@@ -28,6 +45,10 @@ function recommend_quote() {
 }
 
 function rank_quote(rank) {
+    /** PUT QuoteRank
+     * Update (Profile, Quote) relationship with new rank (like or dislike)
+     */
+
     var request = new XMLHttpRequest();
     var data = JSON.stringify({
         'quote_id': state.quote_id,
@@ -36,21 +57,21 @@ function rank_quote(rank) {
 
     request.open('PUT', 'http://localhost:8000/daily_quote/api/quoterank/');
 
+    // sending JSON data
     request.setRequestHeader("Content-type", 'application/json');
-    request.setRequestHeader('X-CSRFToken', get_csrf_token());
+    // add cross site request forgery protection
+    request.setRequestHeader('X-CSRFToken', csrf_token());
 
     request.send(data);
+
+    var buttons = document.querySelectorAll('.rank button');
+    buttons.forEach(function (button) {
+        button.disabled = true;
+    });
 }
 
-function like_quote() {
-    rank_quote(1)
-}
-
-function dislike_quote() {
-    rank_quote(-1)
-}
-
-function get_csrf_token() {
+function csrf_token() {
+    // TODO: Look for a less error-prone solution
     var token = null;
     var cookies = document.cookie.split(';');
     cookies.forEach(function (cookie) {
@@ -60,4 +81,8 @@ function get_csrf_token() {
         }
     });
     return token
+}
+
+function rgba(r, g, b, a) {
+    return "rgba(" + r.toString() + ", " + g.toString() + ", " + b.toString() + ", " + a.toString() + ")"
 }
