@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Courgette|Lobster');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display|Raleway');
 
 body {
     display: flex;
@@ -6,7 +6,7 @@ body {
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
-    background-color: antiquewhite;
+    background-color: #1b3249;
 }
 
 h1 {
@@ -14,11 +14,11 @@ h1 {
     margin-top: 100px;
     margin-left: 50px;
     font-size: 3em;
-    font-family: 'Lobster', cursive;
-    color: saddlebrown;
+    font-family: 'Railway', cursive;
+    color: aliceblue;
     padding-bottom: 10px;
     width: 33vw;
-    border-bottom: 5px double saddlebrown;
+    border-bottom: 5px double aliceblue;
 }
 
 main {
@@ -26,13 +26,12 @@ main {
 }
 
 #quote_container {
-    font-family: 'Courgette', cursive;
+    font-family: 'Playfair Display', cursive;
     max-width: 65vw;
-    color: darkslategrey;
-    background-color: powderblue;
-    border-radius: 15px;
+    color: aliceblue;
+    background-color: rgba(153, 169, 217, 0.8);
+    border: 2px solid aliceblue;
     overflow: hidden;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
 }
 
 #quote_container blockquote {
@@ -62,17 +61,17 @@ main {
 .rank button {
     width: 110px;
     height: 110px;
+    background-color: aliceblue;
     color: ghostwhite;
     font-size: 3em;
-    border: 5px solid ghostwhite;
     border-radius: 50%;
 }
 
 .rank #like {
-    background-color: seagreen;
+    background-image: url("images/SVG/like.svg");
 }
 
 .rank #dislike {
-    background-color: firebrick;
+    background-image: url("images/SVG/dislike.svg");
 }
 
