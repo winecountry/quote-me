@@ -2,4 +2,4 @@
 **/__pycache__
 env
 data
-daily_quote/images/*.ai
+daily_quote/static/daily_quote/images/*.ai
