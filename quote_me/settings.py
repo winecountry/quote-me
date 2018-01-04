@@ -129,3 +129,5 @@ STATIC_URL = '/static/'
 # Redirect after successful login
 
 LOGIN_REDIRECT_URL = '/daily_quote/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
