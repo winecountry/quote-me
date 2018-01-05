@@ -1,3 +1,4 @@
+import datetime
 from random import choice, randint
 
 from django.db import models
@@ -20,8 +21,8 @@ class Quote(models.Model):
     @staticmethod
     def recommend(profile=None):
         quote = recommend_quote(profile)
-        QuoteRank(profile=profile, quote=quote, rank=0).save()
-        return quote
+        profile.current_quote_id = quote.id
+        return QuoteRank.objects.create(profile=profile, quote=quote, rank=0)
 
     def __str__(self):
         return '"{}" - {}'.format(self.text, self.author.name)
@@ -31,12 +32,13 @@ class QuoteRank(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.PROTECT)
     quote = models.ForeignKey(Quote, on_delete=models.PROTECT)
     rank = models.IntegerField()
+    date = models.DateField(default=datetime.date.today)
 
     def __str__(self):
         return "{} -> {} ({})".format(self.profile, self.quote, self.rank)
 
 
-def random_row():
+def random_quote():
     count = Quote.objects.all().count()
     pk = randint(1, count)
     return Quote.objects.get(pk=pk)
@@ -45,7 +47,7 @@ def random_row():
 def recommend_quote(profile):
     if profile is None:
         print("NO PROFILE SPECIFIED: Defaulting to random selection...")
-        return random_row()
+        return random_quote()
 
     try:
         # Get all quotes the user likes
@@ -61,7 +63,7 @@ def recommend_quote(profile):
         # Return one at random
         return choice(quotes)
     except IndexError:
-        quote = random_row()
+        quote = random_quote()
         print("NO SIMILAR QUOTES FOUND: Defaulting to random selection...", quote)
         return quote
 
