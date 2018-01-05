@@ -1,29 +1,26 @@
 // Document ready function
 document.addEventListener('DOMContentLoaded', function () {
-    recommend_quote();  // GET Quote
+    recommend_quote();
 
     var like_button = document.getElementById('like');
-    // PUT QuoteRank
+    var dislike_button = document.getElementById('dislike');
+
     like_button.addEventListener('click', function () {
-        rank_quote(1);
-        this.style.backgroundColor = rgba(34, 139, 34, 0.6);
+        rank_quote(1, this, dislike_button);
     });
 
-    var dislike_button = document.getElementById('dislike');
-    // PUT QuoteRank
     dislike_button.addEventListener('click', function () {
-        rank_quote(-1);
-        this.style.backgroundColor = rgba(204, 17, 17, 0.6);
-        this.style.backgroundOpacity = 0.6;
+        rank_quote(-1, like_button, this);
     });
 });
 
 var state = {
-    'quote_id': null
+    'quote_id': null,
+    'rank': 0
 };
 
 function recommend_quote() {
-    /** GET Quote
+    /** GET QuoteRank
      * Populate the quote container with a recommended quote
      */
 
@@ -33,45 +30,67 @@ function recommend_quote() {
     request.open('GET', 'http://localhost:8000/daily_quote/api/recommend');
 
     request.onload = function () {
+        /* Update State */
         var data = JSON.parse(request.responseText);
-        var quote_string = document.getElementById('quote_string');
-        var author = document.getElementById('author');
-        state.quote_id = data.id;
-        quote_string.innerHTML = data.text;
-        author.innerHTML += data.author.name;
+        state.quote_id = data.quote.id;
+        state.rank = data.rank;
+
+        /* Update HTML */
+        document.getElementById('quote_string').innerHTML = data.quote.text;
+        document.getElementById('author').innerHTML += data.quote.author.name;
     };
 
     request.send();
 }
 
-function rank_quote(rank) {
+function rank_quote(rank, like_button, dislike_button) {
     /** PUT QuoteRank
      * Update (Profile, Quote) relationship with new rank (like or dislike)
      */
 
     var request = new XMLHttpRequest();
-    var data = JSON.stringify({
+    var payload = JSON.stringify({
         'quote_id': state.quote_id,
         'rank': rank
     });
 
+    // New AJAX request
     request.open('PUT', 'http://localhost:8000/daily_quote/api/quoterank/');
 
+    /* Set Headers */
     // sending JSON data
     request.setRequestHeader("Content-type", 'application/json');
-    // add cross site request forgery protection
+    // cross site request forgery
     request.setRequestHeader('X-CSRFToken', csrf_token());
 
-    request.send(data);
+    request.onload = function () {
+        if (request.status === 200) {
+            /* Update state */
+            var data = JSON.parse(request.responseText);
+            state.rank = data.rank;
 
-    var buttons = document.querySelectorAll('.rank button');
-    buttons.forEach(function (button) {
+            /* Update HTML */
+            disable_buttons(like_button, dislike_button)
+        }
+    };
+
+    request.send(payload);
+}
+
+function disable_buttons(like_button, dislike_button) {
+    if (state.rank === 1) {
+        like_button.classList.add('selected')
+    } else if (state.rank === -1) {
+        dislike_button.classList.add('selected')
+    }
+
+    [like_button, dislike_button].forEach(function (button) {
         button.disabled = true;
     });
 }
 
 function csrf_token() {
-    // TODO: Look for a less error-prone solution
+    // TODO: Look for a less error-prone implementation
     var token = null;
     var cookies = document.cookie.split(';');
     cookies.forEach(function (cookie) {
@@ -81,8 +100,4 @@ function csrf_token() {
         }
     });
     return token
-}
-
-function rgba(r, g, b, a) {
-    return "rgba(" + r.toString() + ", " + g.toString() + ", " + b.toString() + ", " + a.toString() + ")"
 }

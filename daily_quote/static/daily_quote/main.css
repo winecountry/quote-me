@@ -95,3 +95,10 @@ main {
     background-image: url("images/SVG/dislike-disabled.svg");
 }
 
+.rank #like.selected {
+    background-color: rgba(34, 139, 34, 0.6);
+}
+
+.rank #dislike.selected {
+    background-color: rgba(204, 17, 17, 0.6);
+}
