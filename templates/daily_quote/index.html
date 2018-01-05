@@ -14,10 +14,19 @@
         <blockquote id="quote_string">{{ quote_text }}</blockquote>
         <div id="author">&mdash; {{ author }}</div>
     </div>
-    <div class="rank">
-        <button id="like"></button>
-        <button id="dislike"></button>
+
+    {% if my_profile %}
+    <div id="buttons" class="rank">
+        <button id="like"
+                {% if rank != 0 %} disabled {% endif %}
+                {% if rank == 1 %} class="selected" {% endif %}
+        ></button>
+        <button id="dislike"
+                {% if rank != 0 %} disabled {% endif %}
+                {% if rank == -1 %} class="selected" {% endif %}
+        ></button>
     </div>
+    {% endif %}
 </main>
 </body>
 </html>
