@@ -4,6 +4,5 @@ from django.urls import include
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index),
-    url(r'^api/', include('daily_quote.api.urls')),
+    url(r'^(?P<username>.+)/$', views.user_home),
 ]
