@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.response import Response
 
 from daily_quote.api.serializers import QuoteSerializer, QuoteRankSerializer
 from daily_quote.models import Quote, QuoteRank
@@ -15,8 +16,7 @@ class QuoteRecommend(generics.RetrieveAPIView):
     serializer_class = QuoteRankSerializer
 
     def get_object(self):
-        user = self.request.user
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=self.request.user)
         return Quote.recommend(profile)
 
 
@@ -26,14 +26,13 @@ class QuoteRankUpdate(generics.UpdateAPIView):
 
     def get_object(self):
         user = self.request.user
-        quote_id = self.request.data['quote_id']
+        quote_id = user.profile.current_quote_id
         return QuoteRank.objects.get(profile__user=user, quote__id=quote_id)
 
     def put(self, request, *args, **kwargs):
-        print('UPDATE', self.request.data)
-        user = self.request.user
-        quote_id = self.request.data['quote_id']
-        rank = self.request.data['rank']
-        quoterank = QuoteRank.objects.get(profile__user=user, quote__id=quote_id)
-        quoterank.rank = rank
-        return self.update(request, *args, **kwargs)
+        # default database update
+        self.update(request, *args, **kwargs)
+
+        # Return JSON data
+        serializer = self.serializer_class(self.get_object())
+        return Response(serializer.data)

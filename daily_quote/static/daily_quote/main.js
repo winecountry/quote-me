@@ -1,16 +1,19 @@
 // Document ready function
 document.addEventListener('DOMContentLoaded', function () {
-    // recommend_quote();
-    var like_button = document.getElementById('like');
-    var dislike_button = document.getElementById('dislike');
+    var buttons = document.getElementById('buttons');
 
-    like_button.addEventListener('click', function () {
-        rank_quote(1);
-    });
+    if (buttons) {
+        var like_button = buttons.children[0];
+        var dislike_button = buttons.children[1];
 
-    dislike_button.addEventListener('click', function () {
-        rank_quote(-1);
-    });
+        like_button.addEventListener('click', function () {
+            rank_quote(1);
+        });
+
+        dislike_button.addEventListener('click', function () {
+            rank_quote(-1);
+        });
+    }
 });
 
 var state = {
@@ -26,7 +29,7 @@ function recommend_quote() {
     // New AJAX request
     var request = new XMLHttpRequest();
 
-    request.open('GET', 'http://localhost:8000/daily_quote/api/recommend');
+    request.open('GET', 'http://localhost:8000/api/recommend');
 
     request.onload = function () {
         /* Update State */
@@ -54,12 +57,11 @@ function rank_quote(rank, like_button, dislike_button) {
 
     var request = new XMLHttpRequest();
     var payload = JSON.stringify({
-        'quote_id': state.quote_id,
         'rank': rank
     });
 
     // New AJAX request
-    request.open('PUT', 'http://localhost:8000/daily_quote/api/quoterank/');
+    request.open('PUT', 'http://localhost:8000/api/quoterank/');
 
     /* Set Headers */
     // sending JSON data
@@ -85,6 +87,7 @@ function disable_buttons() {
     var like_button = document.getElementById('like');
     var dislike_button = document.getElementById('dislike');
 
+    console.log(state.rank);
     if (state.rank === 1) {
         like_button.classList.add('selected')
     } else if (state.rank === -1) {
