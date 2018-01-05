@@ -11,8 +11,8 @@ class QuoteDetail(generics.RetrieveAPIView):
 
 
 class QuoteRecommend(generics.RetrieveUpdateAPIView):
-    queryset = Quote.objects.all()
-    serializer_class = QuoteSerializer
+    queryset = QuoteRank.objects.all()
+    serializer_class = QuoteRankSerializer
 
     def get_object(self):
         user = self.request.user
@@ -25,7 +25,6 @@ class QuoteRankUpdate(generics.UpdateAPIView):
     serializer_class = QuoteRankSerializer
 
     def get_object(self):
-        print("GET_OBJECT", self.request.data)
         user = self.request.user
         quote_id = self.request.data['quote_id']
         return QuoteRank.objects.get(profile__user=user, quote__id=quote_id)

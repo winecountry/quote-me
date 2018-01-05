@@ -20,10 +20,11 @@ class QuoteSerializer(serializers.ModelSerializer):
 
 
 class QuoteRankSerializer(serializers.ModelSerializer):
+    quote = QuoteSerializer(required=False)
+
     class Meta:
         model = QuoteRank
         fields = '__all__'
         extra_kwargs = {
             'profile': {'required': False},
-            'quote': {'required': False},
         }
