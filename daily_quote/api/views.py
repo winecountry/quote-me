@@ -10,7 +10,7 @@ class QuoteDetail(generics.RetrieveAPIView):
     serializer_class = QuoteSerializer
 
 
-class QuoteRecommend(generics.RetrieveUpdateAPIView):
+class QuoteRecommend(generics.RetrieveAPIView):
     queryset = QuoteRank.objects.all()
     serializer_class = QuoteRankSerializer
 
