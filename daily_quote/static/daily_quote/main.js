@@ -1,16 +1,15 @@
 // Document ready function
 document.addEventListener('DOMContentLoaded', function () {
-    recommend_quote();
-
+    // recommend_quote();
     var like_button = document.getElementById('like');
     var dislike_button = document.getElementById('dislike');
 
     like_button.addEventListener('click', function () {
-        rank_quote(1, this, dislike_button);
+        rank_quote(1);
     });
 
     dislike_button.addEventListener('click', function () {
-        rank_quote(-1, like_button, this);
+        rank_quote(-1);
     });
 });
 
@@ -36,6 +35,11 @@ function recommend_quote() {
         state.rank = data.rank;
 
         /* Update HTML */
+        // quote not ranked
+        if (state.rank !== 0) {
+            disable_buttons()
+        }
+        // inject quote
         document.getElementById('quote_string').innerHTML = data.quote.text;
         document.getElementById('author').innerHTML += data.quote.author.name;
     };
@@ -70,14 +74,17 @@ function rank_quote(rank, like_button, dislike_button) {
             state.rank = data.rank;
 
             /* Update HTML */
-            disable_buttons(like_button, dislike_button)
+            disable_buttons()
         }
     };
 
     request.send(payload);
 }
 
-function disable_buttons(like_button, dislike_button) {
+function disable_buttons() {
+    var like_button = document.getElementById('like');
+    var dislike_button = document.getElementById('dislike');
+
     if (state.rank === 1) {
         like_button.classList.add('selected')
     } else if (state.rank === -1) {
