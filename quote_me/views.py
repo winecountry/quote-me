@@ -7,12 +7,8 @@ from quote_me.models import Profile
 from .forms import SignUpForm
 
 
-def index(request):
-    return redirect('signup/')
-
-
 def home(request):
-    pass
+    return render(request, 'quote_me/home.html')
 
 
 def signup(request):
