@@ -5,7 +5,7 @@ from daily_quote.models import Quote, QuoteRank
 from quote_me.models import Profile
 
 
-def user_home(request, username):
+def daily_quote(request, username):
     my_profile = False
     rank = 0
 
@@ -32,8 +32,7 @@ def user_home(request, username):
         quote = Quote.recommend()
 
     context = {
-        'quote_text': quote.text,
-        'author': quote.author,
+        'quote': quote,
         'my_profile': my_profile,
         'rank': rank,
     }
