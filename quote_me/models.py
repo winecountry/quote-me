@@ -18,6 +18,10 @@ class Profile(models.Model):
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
+    from daily_quote.models import Quote
+    from daily_quote.models import QuoteRank
+
     if created:
-        Profile.objects.create(user=instance)
+        profile = Profile.objects.create(user=instance)
+        QuoteRank.objects.create(profile=profile, quote=Quote.random_quote())
     instance.profile.save()

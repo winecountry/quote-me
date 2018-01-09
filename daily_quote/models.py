@@ -2,6 +2,8 @@ import datetime
 from random import choice, randint
 
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from quote_me.models import Profile
 
@@ -19,10 +21,13 @@ class Quote(models.Model):
     text = models.TextField()
 
     @staticmethod
-    def recommend(profile=None):
-        if profile is None:
-            print("NO PROFILE SPECIFIED: Defaulting to random selection...")
-            return random_quote()
+    def recommend(profile):
+        quote_id = profile.current_quote_id
+        quoterank, _ = QuoteRank.objects.get_or_create(profile=profile, quote__id=quote_id)
+
+        # if the user's current quote was recommended today, return the same quote
+        if quoterank.date == datetime.date.today():
+            return quoterank
 
         try:
             # Get all quotes the user likes
@@ -42,17 +47,33 @@ class Quote(models.Model):
             # Return one at random
             quote = choice(quotes)
         except IndexError:
-            quote = random_quote()
-            print("NO SIMILAR QUOTES FOUND: Defaulting to random selection...", quote)
+            print("NO SIMILAR QUOTES: Defaulting to random quote...")
+            quote = Quote.new_quote(profile)
 
-        # Update last recommended quote
-        profile.current_quote_id = quote.id
-        profile.save()
+        # create relationship between the user and quote
+        QuoteRank.objects.create(profile=profile, quote=quote)
 
-        print("CREATING QUOTERANK")
-        quoterank, _ = QuoteRank.objects.get_or_create(profile=profile, quote=quote, rank=0)
+        return quoterank
 
-        return quoterank.quote
+    @staticmethod
+    def random_quote():
+        count = Quote.objects.count()
+        pk = randint(1, count)
+        return Quote.objects.get(pk=pk)
+
+    @staticmethod
+    def new_quote(profile):
+        """
+        Pick a new quote for a profile
+
+        :param profile: profile to recommend to
+        :return: a new quote the user has not seen
+        """
+
+        while True:
+            quote = Quote.random_quote()
+            if quote not in profile.quotes.values():
+                return quote
 
     def __str__(self):
         return '"{}" - {}'.format(self.text, self.author.name)
@@ -61,15 +82,17 @@ class Quote(models.Model):
 class QuoteRank(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.PROTECT)
     quote = models.ForeignKey(Quote, on_delete=models.PROTECT)
-    rank = models.IntegerField()
+    rank = models.IntegerField(default=0)
     date = models.DateField(default=datetime.date.today)
 
     def __str__(self):
         return "{} -> {} ({})".format(self.profile, self.quote, self.rank)
 
 
-def random_quote():
-    count = Quote.objects.count()
-    pk = randint(1, count)
-    # return Quote.objects.all()[pk - 1]
-    return Quote.objects.get(pk=pk)
+@receiver(post_save, sender=QuoteRank)
+def update_current_quote(sender, instance, created, **kwargs):
+    if created:
+        profile = instance.profile
+        quote = instance.quote
+        profile.current_quote_id = quote.id
+        profile.save()
