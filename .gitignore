@@ -1,5 +1,6 @@
 .idea
 **/__pycache__
+.env
 env
 data
 daily_quote/static/daily_quote/images/*.ai
