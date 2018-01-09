@@ -3,8 +3,7 @@ import json
 from django.contrib.auth.models import User
 from django.test import TransactionTestCase
 
-from daily_quote.models import Author, Quote
-from quote_me.models import Profile
+from daily_quote.models import Author, Profile, Quote
 
 
 class DailyQuoteTests(TransactionTestCase):
@@ -22,7 +21,7 @@ class DailyQuoteTests(TransactionTestCase):
         quote = response.context['quote']
 
         self.assertIsInstance(quote, Quote)
-        self.assertEqual(quote.id, profile.current_quote_id)
+        self.assertEqual(quote, profile.current_quote)
 
     def test_user_quote_rendered_to_profile_page(self):
         self.client.login(username='alice', password='pass1234')
@@ -32,7 +31,7 @@ class DailyQuoteTests(TransactionTestCase):
         quote = response.context['quote']
 
         self.assertIsInstance(quote, Quote)
-        self.assertEqual(quote.id, profile.current_quote_id)
+        self.assertEqual(quote, profile.current_quote)
 
     def test_anonymous_user_quote_rendered_to_home(self):
         response = self.client.get('/')

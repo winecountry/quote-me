@@ -8,7 +8,7 @@ from .forms import SignUpForm
 
 def home(request):
     if request.user.is_authenticated:
-        quote = Quote.recommend(request.user.profile).quote
+        quote = request.user.profile.recommend().quote
     else:
         quote = Quote.random_quote()
 

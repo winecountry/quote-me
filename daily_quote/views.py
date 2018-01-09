@@ -1,8 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render
 
-from daily_quote.models import Quote, QuoteRank
-from quote_me.models import Profile
+from daily_quote.models import Profile
 
 
 def user_profile(request, username):
@@ -11,11 +10,13 @@ def user_profile(request, username):
     }
 
     try:
-        profile = Profile.objects.get(user__username=username)
         if request.user.username == username:
             context['my_profile'] = True
+            profile = request.user.profile
+        else:
+            profile = Profile.objects.get(user__username=username)
 
-        quoterank = Quote.recommend(profile)
+        quoterank = profile.recommend()
 
         context['quote'] = quoterank.quote
         context['rank'] = quoterank.rank

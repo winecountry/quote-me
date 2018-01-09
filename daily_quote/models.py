@@ -1,11 +1,10 @@
 import datetime
 from random import choice, randint
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-from quote_me.models import Profile
 
 
 class Author(models.Model):
@@ -21,9 +20,26 @@ class Quote(models.Model):
     text = models.TextField()
 
     @staticmethod
-    def recommend(profile):
-        quote_id = profile.current_quote_id
-        quoterank, _ = QuoteRank.objects.get_or_create(profile=profile, quote__id=quote_id)
+    def random_quote():
+        count = Quote.objects.count()
+        pk = randint(1, count)
+        return Quote.objects.get(pk=pk)
+
+    def __str__(self):
+        return '"{}" - {}'.format(self.text, self.author.name)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    quotes = models.ManyToManyField(Quote, through='daily_quote.QuoteRank')
+    current_quote = models.ForeignKey(Quote, related_name='current_quote', null=True, on_delete=models.PROTECT)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+    def recommend(self):
+        quote = self.current_quote
+        quoterank, _ = QuoteRank.objects.get_or_create(profile=self, quote=quote)
 
         # if the user's current quote was recommended today, return the same quote
         if quoterank.date == datetime.date.today():
@@ -31,14 +47,14 @@ class Quote(models.Model):
 
         try:
             # Get all quotes the user likes
-            profile_quotes = Quote.objects.filter(profile=profile)
+            profile_quotes = Quote.objects.filter(profile=self)
             profile_liked_quotes = profile_quotes.filter(quoterank__rank=1)
 
             # Pick a random quote the user likes
             quote = choice(profile_liked_quotes)
 
             # Find other users who like that quote
-            profiles = Profile.objects.filter(quoterank__quote=quote, quoterank__rank=1).exclude(id=profile.id)
+            profiles = Profile.objects.filter(quoterank__quote=quote, quoterank__rank=1).exclude(id=self.id)
 
             # Find other quotes those users like (excluding quotes the user has already seen)
             quotes = Quote.objects.filter(profile__in=profiles, quoterank__rank=1).distinct()\
@@ -48,35 +64,27 @@ class Quote(models.Model):
             quote = choice(quotes)
         except IndexError:
             print("NO SIMILAR QUOTES: Defaulting to random quote...")
-            quote = Quote.new_quote(profile)
+            quote = self.new_quote()
 
         # create relationship between the user and quote
-        QuoteRank.objects.create(profile=profile, quote=quote)
+        QuoteRank.objects.create(profile=self, quote=quote)
 
         return quoterank
 
-    @staticmethod
-    def random_quote():
-        count = Quote.objects.count()
-        pk = randint(1, count)
-        return Quote.objects.get(pk=pk)
-
-    @staticmethod
-    def new_quote(profile):
+    def new_quote(self):
         """
         Pick a new quote for a profile
 
-        :param profile: profile to recommend to
         :return: a new quote the user has not seen
         """
 
         while True:
             quote = Quote.random_quote()
-            if quote not in profile.quotes.values():
+            if quote not in self.quotes.values():
                 return quote
 
     def __str__(self):
-        return '"{}" - {}'.format(self.text, self.author.name)
+        return str(self.user)
 
 
 class QuoteRank(models.Model):
@@ -89,10 +97,18 @@ class QuoteRank(models.Model):
         return "{} -> {} ({})".format(self.profile, self.quote, self.rank)
 
 
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        profile = Profile.objects.create(user=instance)
+        QuoteRank.objects.create(profile=profile, quote=Quote.random_quote())
+    instance.profile.save()
+
+
 @receiver(post_save, sender=QuoteRank)
 def update_current_quote(sender, instance, created, **kwargs):
     if created:
         profile = instance.profile
         quote = instance.quote
-        profile.current_quote_id = quote.id
+        profile.current_quote = quote
         profile.save()
