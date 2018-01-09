@@ -69,6 +69,7 @@ class QuoteRank(models.Model):
 
 
 def random_quote():
-    count = Quote.objects.all().count()
+    count = Quote.objects.count()
     pk = randint(1, count)
+    # return Quote.objects.all()[pk - 1]
     return Quote.objects.get(pk=pk)
