@@ -16,8 +16,7 @@ class QuoteRecommend(generics.RetrieveAPIView):
     serializer_class = QuoteRankSerializer
 
     def get_object(self):
-        profile = Profile.objects.get(user=self.request.user)
-        return Quote.recommend(profile)
+        return Quote.recommend(self.request.user.profile)
 
 
 class QuoteRankUpdate(generics.UpdateAPIView):
