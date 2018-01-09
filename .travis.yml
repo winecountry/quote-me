@@ -1,7 +1,17 @@
 language: python
-sudo: false
-dist: trusty
-# command to install dependencies
-install:
-  - pip install django==1.11.8
-  - pip install -r requirements.txt
+services:
+  - postgresql
+python:
+  - 3.6
+env:
+  -DJANGO=1.11 DB=postgres
+install: pip install -r requirements.txt
+before_script: psql -c 'create database test_db;' -U postgres
+script: coverage run manage.py test
+after_success: coverage report -m
+#  - coveralls
+#deploy:
+#provider: heroku
+#run:
+#  - python manage.py makemigrations
+#  - python manage.py migrate
