@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -80,15 +81,25 @@ WSGI_APPLICATION = 'quote_me.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'quote_db',
+#        'USER': 'quote_admin',
+#        'PASSWORD': 'password',
+#        'HOST': 'localhost',
+#        'PORT': '',
+#    }
+#}
+
+# https://github.com/kennethreitz/dj-database-url
+
+# DATABASE_URL = 'postgresql:///quote_db'
+
+# DATABASES['default'] = dj_database_url.config(postgres://USER:PASSWORD@HOST:PORT/NAME)
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'quote_db',
-        'USER': 'quote_admin',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
+    'default': dj_database_url.config()
 }
 
 # Password validation
