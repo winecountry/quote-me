@@ -6,15 +6,15 @@
 
 {% block rank_controls %}
     {% if my_profile %}
-    <div id="buttons" class="rank">
-        <button id="like"
-                {% if rank != 0 %} disabled {% endif %}
-                {% if rank == 1 %} class="selected" {% endif %}
-        ></button>
-        <button id="dislike"
-                {% if rank != 0 %} disabled {% endif %}
-                {% if rank == -1 %} class="selected" {% endif %}
-        ></button>
-    </div>
+        <div id="buttons" class="rank">
+            <button id="like"
+                    {% if rank != 0 %} disabled {% endif %}
+                    {% if rank == 1 %} class="selected" {% endif %}
+            ></button>
+            <button id="dislike"
+                    {% if rank != 0 %} disabled {% endif %}
+                    {% if rank == -1 %} class="selected" {% endif %}
+            ></button>
+        </div>
     {% endif %}
 {% endblock rank_controls %}

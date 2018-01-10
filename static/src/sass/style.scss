@@ -1,12 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display|Raleway');
 
+$bg-color: whitesmoke;
+$accent-color: ghostwhite;
+
+$theme-color: #1b3249;
+$theme-color-highlight: steelblue;
+
+$btn-like-color: forestgreen;
+$btn-dislike-color: #cc1111;
+
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
-    background-color: whitesmoke;
+    background-color: $bg-color;
 }
 
 h1 {
@@ -28,10 +37,10 @@ main {
 #quote_container {
     font-family: 'Playfair Display', cursive;
     max-width: 65vw;
-    color: #1b3249;
-    background-color: rgba(248, 248, 255, 0.8);
-    border: 2px solid #1b3249;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
+    color: $theme-color;
+    background-color: transparentize($accent-color, 0.2);
+    border: 2px solid $theme-color;
+    box-shadow: 0 3px 15px transparentize(black, 0.4);
     overflow: hidden;
 }
 
@@ -47,8 +56,8 @@ main {
 #quote_container #author {
     padding: 10px 20px;
     font-size: 1.3em;
-    color: ghostwhite;
-    background-color: steelblue;
+    color: $accent-color;
+    background-color: $theme-color-highlight;
 }
 
 .rank {
@@ -62,43 +71,43 @@ main {
 .rank button {
     width: 110px;
     height: 110px;
-    background-color: ghostwhite;
+    background-color: $accent-color;
     font-size: 3em;
     border-radius: 50%;
 }
 
 .rank #like {
-    background-image: url("images/SVG/like.svg");
+    background-image: image-url("SVG/like.svg");
 }
 
 .rank #dislike {
-    background-image: url("images/SVG/dislike.svg");
+    background-image: image-url("SVG/dislike.svg");
 }
 
 .rank #like:active {
-    background: forestgreen url("images/SVG/like-active.svg");
+    background: $btn-like-color image-url("SVG/like-active.svg");
 }
 
 .rank #dislike:active {
-    background: #cc1111 url("images/SVG/dislike-active.svg");
+    background: $btn-dislike-color image-url("SVG/dislike-active.svg");
 }
 
 .rank button:disabled {
-    background-color: ghostwhite;
+    background-color: $accent-color;
 }
 
 .rank #like:disabled {
-    background-image: url("images/SVG/like-disabled.svg");
+    background-image: image-url("SVG/like-disabled.svg");
 }
 
 .rank #dislike:disabled {
-    background-image: url("images/SVG/dislike-disabled.svg");
+    background-image: image-url("SVG/dislike-disabled.svg");
 }
 
 .rank #like.selected {
-    background-color: rgba(34, 139, 34, 0.6);
+    background-color: transparentize($btn-like-color, 0.4);
 }
 
 .rank #dislike.selected {
-    background-color: rgba(204, 17, 17, 0.6);
+    background-color: transparentize($btn-dislike-color, 0.4);
 }
