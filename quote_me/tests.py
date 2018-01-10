@@ -1,18 +1,21 @@
 from django.contrib.auth.models import AnonymousUser, User
 from django.test import TestCase, TransactionTestCase
+
 from daily_quote.models import Author, Quote
+
 
 class LoginTests(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        author = Author.objects.create(name='John Smith', profession='Farmer')
+        Quote.objects.create(text='I like chicken', author=author)
+
         self.credentials = {
             'username': 'test',
             'password': 'test',
         }
         User.objects.create_user(**self.credentials)
-        author = Author.objects.create(name='John Smith', profession='Farmer')
-        Quote.objects.create(text='I like chicken', author=author)
 
     def test_login(self):
         response = self.client.get('/login/')
@@ -31,6 +34,7 @@ class LoginTests(TransactionTestCase):
         self.client.logout()
         response = self.client.get('/')
         self.assertEqual(response.context['user'], AnonymousUser())
+
 
 class SignupTests(TransactionTestCase):
     reset_sequences = True

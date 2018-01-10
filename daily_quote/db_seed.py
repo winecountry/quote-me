@@ -1,9 +1,9 @@
 from random import choice, choices, randint
 
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
 from daily_quote.stock_users import stock_users
-from quote_me.models import Profile
 from .models import Author, Quote, QuoteRank
 
 """
@@ -12,7 +12,7 @@ Run `seed()` once after migrating changes to the database
 """
 
 
-def get_quotes():
+def get_quotes(debug=False):
     """
     Parse JSON data into Model objects
 
@@ -24,6 +24,10 @@ def get_quotes():
     with open('data/quotes.json', 'r') as data:
         quotes = []
         author_list = json.loads(data.read())
+
+        if debug:
+            author_list = author_list[:250]
+
         for author_obj in author_list:
             author, _ = Author.objects.get_or_create(name=author_obj['name'], profession=author_obj['profession'])
             print(author.name)
@@ -52,7 +56,7 @@ def inject_failure():
     Quote.objects.create(author=Author.objects.create(**author), **quote)
 
 
-def seed(with_quotes=True):
+def seed(with_quotes=True, debug=False):
     """
     https://stackoverflow.com/questions/33259477/table-was-deleted-how-can-i-make-django-recreate-it
     :return:
@@ -63,13 +67,12 @@ def seed(with_quotes=True):
 
     # build Model objects
     users = stock_users
-    quotes = get_quotes() if with_quotes else Quote.objects.all()
+    quotes = get_quotes(debug) if with_quotes else Quote.objects.all()
     ranks = [-1, 0, 1]
     profiles = []
     for user_obj in users:
-        user, _ = User.objects.get_or_create(**user_obj, password='pass1234')
-        profile, _ = Profile.objects.get_or_create(user=user)
-        profiles.append(profile)
+        user = User.objects.create_user(**user_obj, password='pass1234')
+        profiles.append(user.profile)
     for profile in profiles:
-        for quote in choices(quotes, k=randint(1, 2000)):
+        for quote in choices(quotes, k=randint(1, 100 if debug else 2000)):
             QuoteRank.objects.create(profile=profile, quote=quote, rank=choice(ranks))
