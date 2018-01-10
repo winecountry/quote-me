@@ -1,17 +1,15 @@
-import json
-
 from django.contrib.auth.models import User
-from django.test import TransactionTestCase
+from django.test import TestCase
 
-from daily_quote.models import Author, Profile, Quote
+from daily_quote.models import Profile, Quote
 
 
-class DailyQuoteTests(TransactionTestCase):
-    reset_sequences = True
+class DailyQuoteTests(TestCase):
+    fixtures = ['author', 'quote']
 
     def setUp(self):
-        create_quotes()
-        create_users()
+        User.objects.create_user('alice', 'alice@gmail.com', 'pass1234')
+        User.objects.create_user('bob', 'bob@gmail.com', 'pass1234')
 
     def test_user_quote_rendered_to_home_page(self):
         self.client.login(username='alice', password='pass1234')
@@ -54,16 +52,5 @@ class DailyQuoteTests(TransactionTestCase):
         self.assertEqual(response.status_code, 404)
 
 
-def create_quotes():
-    with open('daily_quote/test.json') as authors:
-        authors = json.load(authors)
-        for author in authors:
-            for quote in author['quotes']:
-                Quote.objects.create(author=Author.objects.create(name=author['name'],
-                                                                  profession=author['profession']),
-                                     text=quote['quote_string'])
-
-
-def create_users():
-    User.objects.create_user('alice', 'alice@gmail.com', 'pass1234')
-    User.objects.create_user('bob', 'bob@gmail.com', 'pass1234')
+class QuoteRecommendationTests(TestCase):
+    fixtures = ['authors.json', 'quotes.json']

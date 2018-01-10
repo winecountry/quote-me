@@ -1,0 +1,10 @@
+[
+  {
+    "model": "daily_quote.quote",
+    "pk": 1,
+    "fields": {
+      "author": 1,
+      "text": "This has led to innumerable errors, vulnerabilities, and system crashes."
+    }
+  }
+]
