@@ -20,7 +20,6 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            Profile.objects.get_or_create(user=user)
             return redirect(settings.LOGIN_REDIRECT_URL)
     else:
         form = SignUpForm()
