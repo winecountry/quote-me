@@ -17,7 +17,7 @@ after_success:
 #  - coveralls
   - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
   - "chmod a+x /tmp/travis-automerge"
-  - "BRANCHES_TO_MERGE_REGEX='^develop$’ BRANCH_TO_MERGE_INTO=master GITHUB_REPO=winecountry/quote-me /tmp/travis-automerge"
+  - "BRANCHES_TO_MERGE_REGEX='^develop$' BRANCH_TO_MERGE_INTO=master GITHUB_REPO=winecountry/quote-me /tmp/travis-automerge"
 #deploy:
 #provider: heroku
 #run:
