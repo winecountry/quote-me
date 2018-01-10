@@ -2,13 +2,17 @@ from django.conf import settings
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 
-from daily_quote.db_seed import seed
-from quote_me.models import Profile
+from daily_quote.models import Quote
 from .forms import SignUpForm
 
 
 def home(request):
-    return render(request, 'quote_me/home.html')
+    if request.user.is_authenticated:
+        quote = request.user.profile.recommend().quote
+    else:
+        quote = Quote.random_quote()
+
+    return render(request, 'quote_me/home.html', {'quote': quote})
 
 
 def signup(request):
@@ -20,7 +24,6 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            Profile.objects.get_or_create(user=user)
             return redirect(settings.LOGIN_REDIRECT_URL)
     else:
         form = SignUpForm()

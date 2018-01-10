@@ -1,0 +1,20 @@
+{% extends "daily_quote/base_daily_quote.html" %}
+
+{% block profile_info %}
+    <p>Profile Info</p>
+{% endblock profile_info %}
+
+{% block rank_controls %}
+    {% if my_profile %}
+    <div id="buttons" class="rank">
+        <button id="like"
+                {% if rank != 0 %} disabled {% endif %}
+                {% if rank == 1 %} class="selected" {% endif %}
+        ></button>
+        <button id="dislike"
+                {% if rank != 0 %} disabled {% endif %}
+                {% if rank == -1 %} class="selected" {% endif %}
+        ></button>
+    </div>
+    {% endif %}
+{% endblock rank_controls %}
