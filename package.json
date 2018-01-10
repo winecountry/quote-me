@@ -1,0 +1,31 @@
+{
+  "name": "quote-me",
+  "version": "0.0.1",
+  "description": "The daily quote recommender",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/winecountry/quote-me.git"
+  },
+  "keywords": [
+    "daily",
+    "quote"
+  ],
+  "author": [
+    "Lucas Lofaro",
+    "Nicholas Lofaro"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/winecountry/quote-me/issues"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-util": "^3.0.8",
+    "jquery": "^3.2.1"
+  }
+}
