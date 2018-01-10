@@ -1,0 +1,42 @@
+[
+  {
+    "model": "daily_quote.quote",
+    "pk": 1,
+    "fields": {
+      "author": 1383,
+      "text": "Finally, I told them I'd drop out of the management program if they'd give me an entry-level job in the newsroom for union wages, about fifty dollars a week."
+    }
+  },
+  {
+    "model": "daily_quote.quote",
+    "pk": 2,
+    "fields": {
+      "author": 17290,
+      "text": "Some of the best stories that I've gotten, that others have written about this administration, about the previous administration, you have to rely on anonymous sources."
+    }
+  },
+  {
+    "model": "daily_quote.quote",
+    "pk": 3,
+    "fields": {
+      "author": 20222,
+      "text": "At a time when we are dealing with unpredictable suppliers of energy abroad and higher gas costs at home, the decision to increase domestic energy exploration is integral to a balanced, common sense energy policy."
+    }
+  },
+  {
+    "model": "daily_quote.quote",
+    "pk": 4,
+    "fields": {
+      "author": 20897,
+      "text": "Such, Polly, are your sex - part truth, part fiction; - Some thought, much whim and all a contradiction."
+    }
+  },
+  {
+    "model": "daily_quote.quote",
+    "pk": 5,
+    "fields": {
+      "author": 5762,
+      "text": "I am in Ghost Rider but I'm not sure when it's coming out."
+    }
+  }
+]
