@@ -7,12 +7,8 @@ from quote_me.models import Profile
 from .forms import SignUpForm
 
 
-def index(request):
-    return redirect('signup/')
-
-
 def home(request):
-    pass
+    return render(request, 'quote_me/home.html')
 
 
 def signup(request):
@@ -24,7 +20,6 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            Profile.objects.get_or_create(user=user)
             return redirect(settings.LOGIN_REDIRECT_URL)
     else:
         form = SignUpForm()
