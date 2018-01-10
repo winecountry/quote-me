@@ -1,41 +1,27 @@
-import datetime
+from django.http import Http404
 from django.shortcuts import render
 
-from daily_quote.models import Quote, QuoteRank
-from quote_me.models import Profile
+from daily_quote.models import Profile
 
 
-def user_home(request, username):
-    my_profile = False
-    rank = 0
-
-    try:
-        if username == 'me':
-            profile = Profile.objects.get(user=request.user)
-            my_profile = True
-        else:
-            profile = Profile.objects.get(user__username=username)
-            if request.user.username == username:
-                my_profile = True
-
-        try:
-            quoterank = QuoteRank.objects.get(profile=profile, quote__id=profile.current_quote_id)
-            rank = quoterank.rank
-
-            # return the current quote if it was recommended today, otherwise recommend a new quote
-            quote = quoterank.quote if quoterank.date == datetime.date.today() else Quote.recommend(profile)
-
-        except QuoteRank.DoesNotExist:
-            quote = Quote.recommend(profile)
-
-    except Profile.DoesNotExist:
-        quote = Quote.recommend()
-
+def user_profile(request, username):
     context = {
-        'quote_text': quote.text,
-        'author': quote.author,
-        'my_profile': my_profile,
-        'rank': rank,
+        'my_profile': False,
     }
 
-    return render(request, 'daily_quote/index.html', context)
+    try:
+        if request.user.username == username:
+            context['my_profile'] = True
+            profile = request.user.profile
+        else:
+            profile = Profile.objects.get(user__username=username)
+
+        quoterank = profile.recommend()
+
+        context['quote'] = quoterank.quote
+        context['rank'] = quoterank.rank
+
+    except Profile.DoesNotExist:
+        raise Http404("Profile Does Not Exist")
+
+    return render(request, 'daily_quote/profile.html', context)

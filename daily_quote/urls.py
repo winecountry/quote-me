@@ -1,8 +1,7 @@
-from django.conf.urls import url
-from django.urls import include
+from django.conf.urls import include, url
 
 from . import views
 
 urlpatterns = [
-    url(r'^(?P<username>.+)/$', views.user_home),
+    url(r'^(?P<username>.+)/$', views.user_profile),
 ]
