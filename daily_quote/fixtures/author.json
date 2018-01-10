@@ -1,0 +1,10 @@
+[
+  {
+    "model": "daily_quote.author",
+    "pk": 1,
+    "fields": {
+      "name": "Tony Hoare",
+      "profession": "Programmer"
+    }
+  }
+]
