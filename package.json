@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "The daily quote recommender",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently --kill-others \"python manage.py runserver\" \"gulp\" ",
+    "test": "python manage.py test"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
     "url": "https://github.com/winecountry/quote-me/issues"
   },
   "devDependencies": {
+    "browser-sync": "^2.23.5",
+    "concurrently": "^3.5.1",
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
     "gulp-compass": "^2.1.0",
