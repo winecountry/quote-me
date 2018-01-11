@@ -69,6 +69,7 @@ class FunctionalTestCase(LiveServerTestCase):
         if "TRAVIS" in environ:
             username = environ["SAUCE_USERNAME"]
             access_key = environ["SAUCE_ACCESS_KEY"]
+            capabilities = {}
             capabilities["tunnel-identifier"] = environ["TRAVIS_JOB_NUMBER"]
             hub_url = "%s:%s@localhost:4445" % (username, access_key)
             capabilities["build"] = environ["TRAVIS_BUILD_NUMBER"]
