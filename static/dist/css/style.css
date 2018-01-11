@@ -67,19 +67,19 @@ main {
 }
 
 .rank #like {
-  background-image: url('../../images/SVG/like.svg?1515465148');
+  background-image: url('../../images/SVG/like.svg?1515633760');
 }
 
 .rank #dislike {
-  background-image: url('../../images/SVG/dislike.svg?1515465148');
+  background-image: url('../../images/SVG/dislike.svg?1515633760');
 }
 
 .rank #like:active {
-  background: forestgreen url('../../images/SVG/like-active.svg?1515465148');
+  background: forestgreen url('../../images/SVG/like-active.svg?1515633760');
 }
 
 .rank #dislike:active {
-  background: #cc1111 url('../../images/SVG/dislike-active.svg?1515465148');
+  background: #cc1111 url('../../images/SVG/dislike-active.svg?1515633760');
 }
 
 .rank button:disabled {
@@ -87,11 +87,11 @@ main {
 }
 
 .rank #like:disabled {
-  background-image: url('../../images/SVG/like-disabled.svg?1515465148');
+  background-image: url('../../images/SVG/like-disabled.svg?1515633760');
 }
 
 .rank #dislike:disabled {
-  background-image: url('../../images/SVG/dislike-disabled.svg?1515465148');
+  background-image: url('../../images/SVG/dislike-disabled.svg?1515633760');
 }
 
 .rank #like.selected {
