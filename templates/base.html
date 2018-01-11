@@ -8,6 +8,25 @@
     <title>Kwoat.me</title>
 </head>
 <body>
+<nav id="navbar">
+    <a href="{% url 'home' %}" id="kwoat"><span class="primary">kwoat</span>.<span class="secondary">me</span></a>
+    {% if user.is_authenticated %}
+        <ul>
+            <li><a {% if selected == 'home' %} class="selected" {% endif %}
+                    href="{% url 'home' %}">home</a></li>
+            <li><a {% if selected == 'profile' %} class="selected" {% endif %}
+                    href="{% url 'profile' user.username %}">profile</a></li>
+        </ul>
+    {% endif %}
+    <div>
+        {% if user.is_authenticated %}
+            <p>Not, <a href="{% url 'profile' user.username %}">{{ user.username }}</a>?
+                <a href="{% url 'logout' %}?next=/">Logout</a></p>
+        {% else %}
+            <p><a href="{% url 'login' %}">Log in</a> or <a href="{% url 'signup' %}">Sign up</a></p>
+        {% endif %}
+    </div>
+</nav>
 {% block signup %}
 {% endblock %}
 {% block daily_quote %}

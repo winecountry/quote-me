@@ -6,6 +6,7 @@ from daily_quote.models import Profile
 
 def user_profile(request, username):
     context = {
+        'current_route': 'profile',
         'my_profile': False,
     }
 

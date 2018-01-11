@@ -6,8 +6,8 @@
 
 {% block profile_info %}
 {% endblock profile_info %}
-<h1>Quote of the Day</h1>
-<main>
+<h3>Kwoat of the Day</h3>
+<article>
     <div id="quote_container">
         <blockquote id="quote_string">{{ quote.text }}</blockquote>
         <div id="author">&mdash; {{ quote.author }}</div>
@@ -15,7 +15,8 @@
 
     {% block rank_controls %}
     {% endblock rank_controls %}
-</main>
+</article>
+
 {% block feed %}
 {% endblock feed %}
 {% endblock daily_quote %}

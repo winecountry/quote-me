@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display|Raleway');
+@import "compass/reset";
 
 $bg-color: whitesmoke;
 $accent-color: ghostwhite;
@@ -9,99 +10,138 @@ $theme-color-highlight: steelblue;
 $btn-like-color: forestgreen;
 $btn-dislike-color: #cc1111;
 
+$font-stack: 'Playfair Display', cursive;
+
+@mixin rank-button($rank, $color) {
+  background-image: image-url("SVG/" + $rank + ".svg");
+  &:active {
+    background: $color image-url("SVG/" + $rank + "-active.svg");
+  }
+  &:disabled {
+    background-image: image-url("SVG/" + $rank + "-disabled.svg");
+  }
+  &.selected {
+    background-color: transparentize($color, 0.4);
+  }
+}
+
 body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  color: $theme-color;
+  background-color: $bg-color;
+}
+
+h3 {
+  align-self: flex-start;
+  margin-top: 100px;
+  margin-left: 50px;
+  font-size: 3em;
+  font-family: 'Railway', cursive;
+  padding-bottom: 25px;
+  width: 40vw;
+  border-bottom: 5px double #1b3249;
+}
+
+article {
+  margin: auto 0;
+}
+
+#navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  padding: 2%;
+  box-sizing: border-box;
+  font-size: 1.3em;
+  background-color: $accent-color;
+
+  #kwoat {
+    font-size: 1.6em;
+
+    .primary {
+      color: green;
+    }
+
+    .secondary {
+      color: purple;
+    }
+
+    text-decoration: none;
+  }
+
+  a {
+    color: $theme-color;
+  }
+
+  ul {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    background-color: $bg-color;
-}
+    justify-content: space-between;
 
-h1 {
-    align-self: flex-start;
-    margin-top: 100px;
-    margin-left: 50px;
-    font-size: 3em;
-    font-family: 'Railway', cursive;
-    color: #1b3249;
-    padding-bottom: 10px;
-    width: 33vw;
-    border-bottom: 5px double #1b3249;
-}
+    li {
+      padding-right: 80px;
 
-main {
-    margin: auto 0;
+      a {
+        text-decoration: none;
+      }
+    }
+  }
 }
 
 #quote_container {
-    font-family: 'Playfair Display', cursive;
-    max-width: 65vw;
-    color: $theme-color;
-    background-color: transparentize($accent-color, 0.2);
-    border: 2px solid $theme-color;
-    box-shadow: 0 3px 15px transparentize(black, 0.4);
-    overflow: hidden;
+  font-family: $font-stack;
+  max-width: 65vw;
+  background-color: transparentize($accent-color, 0.2);
+  border: 2px solid $theme-color;
+  box-shadow: 0 3px 15px transparentize(black, 0.4);
+  overflow: hidden;
 
-    blockquote {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px;
-        margin: 0;
-        font-size: 1.8em;
-    }
+  blockquote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    margin: 0;
+    font-size: 1.8em;
+  }
 
-    #author {
-        padding: 10px 20px;
-        font-size: 1.3em;
-        color: $accent-color;
-        background-color: $theme-color-highlight;
-    }
+  #author {
+    padding: 10px 20px;
+    font-size: 1.3em;
+    color: $accent-color;
+    background-color: $theme-color-highlight;
+  }
 }
 
 .rank {
-    min-width: 400px;
-    margin-top: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  min-width: 400px;
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 
-    button {
-        width: 110px;
-        height: 110px;
-        background-color: $accent-color;
-        font-size: 3em;
-        border-radius: 50%;
+  button {
+    width: 110px;
+    height: 110px;
+    background-color: $accent-color;
+    font-size: 3em;
+    border-radius: 50%;
 
-        &#like {
-            background-image: image-url("SVG/like.svg");
-            &:active {
-                background: $btn-like-color image-url("SVG/like-active.svg");
-            }
-            &:disabled {
-                background-image: image-url("SVG/like-disabled.svg");
-            }
-            &.selected {
-                background-color: transparentize($btn-like-color, 0.4);
-            }
-        }
-
-        &#dislike {
-            background-image: image-url("SVG/dislike.svg");
-            &:active {
-                background: $btn-dislike-color image-url("SVG/dislike-active.svg");
-            }
-            &:disabled {
-                background-image: image-url("SVG/dislike-disabled.svg");
-            }
-            &.selected {
-                background-color: transparentize($btn-dislike-color, 0.4);
-            }
-        }
-
-        &:disabled {
-            background-color: $accent-color;
-        }
+    &#like {
+      @include rank-button('like', $btn-like-color);
     }
+
+    &#dislike {
+      @include rank-button('dislike', $btn-dislike-color);
+    }
+
+    &:disabled {
+      background-color: $accent-color;
+    }
+  }
 }

@@ -52,7 +52,7 @@ gulp.task('js-watch', ['js'], function (done) {
     done();
 });
 
-gulp.task('default', ['js'], function () {
+gulp.task('default', ['compass', 'js'], function () {
     browserSync.init({
         proxy: "localhost:8000"
     });

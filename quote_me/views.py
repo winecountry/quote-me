@@ -12,7 +12,12 @@ def home(request):
     else:
         quote = Quote.random_quote()
 
-    return render(request, 'quote_me/home.html', {'quote': quote})
+    context = {
+        'current_route': 'home',
+        'quote': quote
+    }
+
+    return render(request, 'quote_me/home.html', context)
 
 
 def signup(request):
