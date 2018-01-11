@@ -42,22 +42,22 @@ main {
     border: 2px solid $theme-color;
     box-shadow: 0 3px 15px transparentize(black, 0.4);
     overflow: hidden;
-}
 
-#quote_container blockquote {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-    margin: 0;
-    font-size: 1.8em;
-}
+    blockquote {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        margin: 0;
+        font-size: 1.8em;
+    }
 
-#quote_container #author {
-    padding: 10px 20px;
-    font-size: 1.3em;
-    color: $accent-color;
-    background-color: $theme-color-highlight;
+    #author {
+        padding: 10px 20px;
+        font-size: 1.3em;
+        color: $accent-color;
+        background-color: $theme-color-highlight;
+    }
 }
 
 .rank {
@@ -66,48 +66,42 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-around;
-}
 
-.rank button {
-    width: 110px;
-    height: 110px;
-    background-color: $accent-color;
-    font-size: 3em;
-    border-radius: 50%;
-}
+    button {
+        width: 110px;
+        height: 110px;
+        background-color: $accent-color;
+        font-size: 3em;
+        border-radius: 50%;
 
-.rank #like {
-    background-image: image-url("SVG/like.svg");
-}
+        &#like {
+            background-image: image-url("SVG/like.svg");
+            &:active {
+                background: $btn-like-color image-url("SVG/like-active.svg");
+            }
+            &:disabled {
+                background-image: image-url("SVG/like-disabled.svg");
+            }
+            &.selected {
+                background-color: transparentize($btn-like-color, 0.4);
+            }
+        }
 
-.rank #dislike {
-    background-image: image-url("SVG/dislike.svg");
-}
+        &#dislike {
+            background-image: image-url("SVG/dislike.svg");
+            &:active {
+                background: $btn-dislike-color image-url("SVG/dislike-active.svg");
+            }
+            &:disabled {
+                background-image: image-url("SVG/dislike-disabled.svg");
+            }
+            &.selected {
+                background-color: transparentize($btn-dislike-color, 0.4);
+            }
+        }
 
-.rank #like:active {
-    background: $btn-like-color image-url("SVG/like-active.svg");
-}
-
-.rank #dislike:active {
-    background: $btn-dislike-color image-url("SVG/dislike-active.svg");
-}
-
-.rank button:disabled {
-    background-color: $accent-color;
-}
-
-.rank #like:disabled {
-    background-image: image-url("SVG/like-disabled.svg");
-}
-
-.rank #dislike:disabled {
-    background-image: image-url("SVG/dislike-disabled.svg");
-}
-
-.rank #like.selected {
-    background-color: transparentize($btn-like-color, 0.4);
-}
-
-.rank #dislike.selected {
-    background-color: transparentize($btn-dislike-color, 0.4);
+        &:disabled {
+            background-color: $accent-color;
+        }
+    }
 }
