@@ -2,6 +2,7 @@ from django.contrib.auth.models import AnonymousUser, User
 from django.test import LiveServerTestCase, TestCase, TransactionTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from os import environ
 
 from daily_quote.models import Author, Quote
 
@@ -65,8 +66,17 @@ class SignupTestCase(TransactionTestCase):
 class FunctionalTestCase(LiveServerTestCase):
 
     def setUp(self):
-        self.selenium = webdriver.Safari()
-        super(FunctionalTestCase, self).setUp()
+        if "TRAVIS" in environ:
+            username = environ["SAUCE_USERNAME"]
+            access_key = environ["SAUCE_ACCESS_KEY"]
+            capabilities["tunnel-identifier"] = environ["TRAVIS_JOB_NUMBER"]
+            hub_url = "%s:%s@localhost:4445" % (username, access_key)
+            capabilities["build"] = environ["TRAVIS_BUILD_NUMBER"]
+            capabilities["tags"] = [environ["TRAVIS_PYTHON_VERSION"], "CI"]
+            self.selenium = webdriver.Remote(desired_capabilities=capabilities, command_executor="https://%s/wd/hub" % hub_url)
+        else:   
+            self.selenium = webdriver.Safari()
+            super(FunctionalTestCase, self).setUp()
 
     def tearDown(self):
         self.selenium.quit()
