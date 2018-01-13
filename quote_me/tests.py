@@ -69,11 +69,13 @@ class FunctionalTestCase(LiveServerTestCase):
         if "TRAVIS" in environ:
             username = environ["SAUCE_USERNAME"]
             access_key = environ["SAUCE_ACCESS_KEY"]
-            capabilities = {}
+            # Create a desired capabilities object as a starting point.
+            capabilities = DesiredCapabilities.FIREFOX.copy()
+            capabilities['platform'] = "WINDOWS"
             capabilities["tunnel-identifier"] = environ["TRAVIS_JOB_NUMBER"]
-            hub_url = "%s:%s@localhost:4445" % (username, access_key)
             capabilities["build"] = environ["TRAVIS_BUILD_NUMBER"]
             capabilities["tags"] = [environ["TRAVIS_PYTHON_VERSION"], "CI"]
+            hub_url = "%s:%s@localhost:4445" % (username, access_key)
             self.selenium = webdriver.Remote(desired_capabilities=capabilities, command_executor="http://%s/wd/hub" % hub_url)
         else:   
             self.selenium = webdriver.Safari()
@@ -103,5 +105,3 @@ class FunctionalTestCase(LiveServerTestCase):
 #        password2 = selenium.find_element_by_id('id_password2')
 #
 #        submit = selenium.find_element_by_name()
-
-        
