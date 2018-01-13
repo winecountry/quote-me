@@ -74,7 +74,7 @@ class FunctionalTestCase(LiveServerTestCase):
             hub_url = "%s:%s@localhost:4445" % (username, access_key)
             capabilities["build"] = environ["TRAVIS_BUILD_NUMBER"]
             capabilities["tags"] = [environ["TRAVIS_PYTHON_VERSION"], "CI"]
-            self.selenium = webdriver.Remote(desired_capabilities=capabilities, command_executor="https://%s/wd/hub" % hub_url)
+            self.selenium = webdriver.Remote(desired_capabilities=capabilities, command_executor="http://%s/wd/hub" % hub_url)
         else:   
             self.selenium = webdriver.Safari()
             super(FunctionalTestCase, self).setUp()
