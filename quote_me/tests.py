@@ -64,6 +64,7 @@ class SignupTestCase(TransactionTestCase):
         self.assertTrue(response.context['user'].is_active)
         self.assertEqual(response.context['user'], user)
 
+
 class FunctionalTestCase(LiveServerTestCase):
 
     def setUp(self):

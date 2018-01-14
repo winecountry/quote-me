@@ -1,0 +1,12 @@
+@mixin rank-button($rank, $color) {
+  background-image: image-url("SVG/" + $rank + ".svg");
+  &:active {
+    background: $color image-url("SVG/" + $rank + "-active.svg");
+  }
+  &:disabled {
+    background-image: image-url("SVG/" + $rank + "-disabled.svg");
+  }
+  &.selected {
+    background-color: transparentize($color, 0.4);
+  }
+}

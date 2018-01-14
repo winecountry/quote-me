@@ -1,5 +1,7 @@
+$ = require('jquery');
+
 // Document ready function
-document.addEventListener('DOMContentLoaded', function () {
+$(function () {
     var buttons = document.getElementById('buttons');
 
     if (buttons) {
@@ -87,7 +89,6 @@ function disable_buttons() {
     var like_button = document.getElementById('like');
     var dislike_button = document.getElementById('dislike');
 
-    console.log(state.rank);
     if (state.rank === 1) {
         like_button.classList.add('selected')
     } else if (state.rank === -1) {

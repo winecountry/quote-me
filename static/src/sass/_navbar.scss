@@ -1,0 +1,43 @@
+#navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  padding: 0 2%;
+  box-sizing: border-box;
+  font-size: 1.3em;
+  background-color: $accent-color;
+
+  #kwoat {
+    font-size: 1.6em;
+
+    .primary {
+      color: green;
+    }
+
+    .secondary {
+      color: purple;
+    }
+
+    text-decoration: none;
+  }
+
+  a {
+    color: $theme-color;
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+
+    li {
+      padding-right: 80px;
+
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+}

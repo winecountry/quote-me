@@ -1,68 +1,110 @@
-const gulp = require('gulp'),
-    gutil = require('gulp-util'),
-    browserify = require('gulp-browserify'),
+const browserify = require('browserify'),
     browserSync = require('browser-sync').create(),
-    compass = require('gulp-compass'),
+    source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
+    gulp = require('gulp'),
+    autoprefixer = require('gulp-autoprefixer'),
+    babel = require('gulp-babel'),
     concat = require('gulp-concat'),
+    gulpif = require('gulp-if'),
+    sass = require("gulp-sass"),
+    sassImage = require('gulp-sass-image'),
+    sourcemaps = require('gulp-sourcemaps'),
+    uglify = require('gulp-uglify'),
+    bourbon = require("node-bourbon").includePaths,
+    normalize = require('node-normalize-scss').includePaths,
     path = require('path');
+//a8c2 9bbf 0bcd
+// environment
+const DEVELOPMENT = 'development';
+const PRODUCTION = 'production';
+const env = process.env.NODE_ENV || DEVELOPMENT;
+const BROWSERSYNC_PROXY = process.env.BROWSERSYNC_PROXY || "localhost:8000";
 
 // define directories
-const STATIC_ROOT = 'static';
-const src = path.join(STATIC_ROOT, 'src');
-const dest = path.join(STATIC_ROOT, 'dist');
-const image = path.join(STATIC_ROOT, 'images');
-const css = path.join(dest, 'css');
-const js = path.join(dest, 'js');
-const sass = path.join(src, 'sass');
+const paths = {
+    STATIC_ROOT: 'static',
+    src: path.join('static', 'src'),
+    sass: path.join('static', 'src', 'sass'),
+    scripts: path.join('static', 'src', 'scripts'),
+    dest: path.join('static', 'dist'),
+    css: path.join('static', 'dist', 'css'),
+    js: path.join('static', 'dist', 'js'),
+    images: path.join('static', 'images'),
+    templates: 'templates'
+};
 
-// master sass files
-const sassSources = [
-    path.join(sass, 'style.scss')
+const masterSassSources = [ // master sass files
+    path.join(paths.sass, 'style.scss')
+], sassSources = [ // all sass files
+    path.join(paths.sass, '/**/*.scss')
+], jsSources = [ // all js scripts
+    path.join(paths.scripts, '/**/*.js')
+], templateSources = [
+    path.join(paths.templates, '/**/*.html')
+], imageSources = [
+    path.join(paths.images, '/**/*.svg')
 ];
 
-// all js scripts
-const jsSources = [
-    path.join(src, 'scripts', '*.js')
-];
+// interpret image urls from sass
+gulp.task('sass-image', function () {
+    return gulp.src(imageSources)
+        .pipe(sassImage({
+            images_path: 'static/images/',
+            css_path: 'static/dist/css/'
+        }))
+        .pipe(gulp.dest(paths.sass))
+});
 
 // compile sass
-gulp.task('compass', function () {
-    gulp.src(sassSources)
-        .pipe(compass({
-            css: css,
-            sass: sass,
-            image: image,
-            style: 'expanded'
-        }))
-        .pipe(gulp.dest(css))
+gulp.task('sass', function () {
+    gulp.src(masterSassSources)
+        .pipe(gulpif(env === PRODUCTION, sourcemaps.init()))
+        .pipe(sass({
+            includePaths: [bourbon, normalize],
+            outputStyle: env === PRODUCTION ? 'compressed' : 'expanded',
+            errLogToConsole: true
+        })).on('error', sass.logError)
+        .pipe(gulpif(env === PRODUCTION, sourcemaps.write()))
+        .pipe(autoprefixer())
+        .pipe(gulp.dest(paths.css))
         .pipe(browserSync.stream());
 });
 
 // concatenate all js sources
 gulp.task('js', function () {
-    gulp.src(jsSources)
-        .pipe(concat('script.js'))
-        .pipe(browserify())
-        .pipe(gulp.dest(js));
+    browserify({
+            entries: path.join(paths.scripts, 'daily_quote.js'),
+            debug: process.env === DEVELOPMENT
+        })
+        .bundle()
+        .pipe(source('bundle.js'))
+        .pipe(buffer())
+        .pipe(gulpif(env === PRODUCTION, sourcemaps.init()))
+        .pipe(babel({
+            presets: ['env']
+        }))
+        .pipe(gulpif(env === PRODUCTION, uglify()))
+        .pipe(gulpif(env === PRODUCTION, sourcemaps.write()))
+        .pipe(gulp.dest(paths.js))
 });
 
-// ensure 'js' task is complete before browser reload
-gulp.task('js-watch', ['js'], function (done) {
-    browserSync.reload();
-    done();
-});
-
-gulp.task('default', ['compass', 'js'], function () {
-    browserSync.init({
-        proxy: "localhost:8000"
-    });
-
+gulp.task('watch', ['sass-image'], function () {
     // reload page after html changes
-    gulp.watch(path.join('templates', '**/*.html')).on('change', browserSync.reload);
+    gulp.watch(templateSources).on('change', browserSync.reload);
+
+    // update paths after image changes
+    gulp.watch(imageSources, ['sass-image']);
 
     // inject css after sass changes
-    gulp.watch(path.join(sass, '*.scss'), ['compass']);
+    gulp.watch(sassSources, ['sass']);
 
     // reload after js changes
-    gulp.watch(path.join(js, '*.js'), ['js-watch']);
+    gulp.watch(jsSources, ['js']).on('change', browserSync.reload);
+});
+
+gulp.task('default', ['watch', 'sass', 'js'], function () {
+    browserSync.init({
+        proxy: BROWSERSYNC_PROXY
+    });
 });

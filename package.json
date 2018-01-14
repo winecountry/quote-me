@@ -23,13 +23,24 @@
     "url": "https://github.com/winecountry/quote-me/issues"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "browser-sync": "^2.23.5",
+    "browserify": "^15.1.0",
     "concurrently": "^3.5.1",
     "gulp": "^3.9.1",
-    "gulp-browserify": "^0.5.1",
-    "gulp-compass": "^2.1.0",
+    "gulp-autoprefixer": "^4.1.0",
+    "gulp-babel": "^7.0.0",
     "gulp-concat": "^2.6.1",
-    "gulp-util": "^3.0.8",
-    "jquery": "^3.2.1"
+    "gulp-if": "^2.0.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sass-image": "^1.0.5",
+    "gulp-sourcemaps": "^2.6.3",
+    "gulp-uglify": "^3.0.0",
+    "jquery": "^3.2.1",
+    "node-bourbon": "^4.2.8",
+    "node-normalize-scss": "^3.0.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
   }
 }
