@@ -79,7 +79,7 @@ class FunctionalTestCase(LiveServerTestCase):
             capabilities["tags"] = [environ["TRAVIS_PYTHON_VERSION"], "CI"]
             hub_url = "%s:%s@localhost:4445" % (username, access_key)
             self.selenium = webdriver.Remote(desired_capabilities=capabilities, command_executor="http://%s/wd/hub" % hub_url)
-        else:   
+        else:
             self.selenium = webdriver.Safari()
             super(FunctionalTestCase, self).setUp()
 
@@ -93,7 +93,7 @@ class FunctionalTestCase(LiveServerTestCase):
 #    def test_page_load(self):
 #        selenium = self.selenium
 #        selenium.get('http://localhost:8000')
-#        
+#
 #        assert "No results found." not in selenium.page_source
 
 #    def test_register(self):
