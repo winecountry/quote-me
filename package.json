@@ -37,6 +37,7 @@
     "gulp-sass-image": "^1.0.5",
     "gulp-sourcemaps": "^2.6.3",
     "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
     "jquery": "^3.2.1",
     "node-bourbon": "^4.2.8",
     "node-normalize-scss": "^3.0.0",
