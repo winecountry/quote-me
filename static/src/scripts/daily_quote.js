@@ -1,7 +1,7 @@
-$ = require('jquery');
+// global.$ = require("jquery");
 
 // Document ready function
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
     var buttons = document.getElementById('buttons');
 
     if (buttons) {
@@ -45,14 +45,48 @@ function recommend_quote() {
             disable_buttons()
         }
         // inject quote
-        document.getElementById('quote_string').innerHTML = data.quote.text;
-        document.getElementById('author').innerHTML += data.quote.author.name;
+        $('#quote_string').innerHTML = data.quote.text;
+        $('#author').innerHTML += data.quote.author.name;
     };
 
     request.send();
 }
 
-function rank_quote(rank, like_button, dislike_button) {
+// function rank_quote(rank) {
+//     /** PUT QuoteRank
+//      * Update (Profile, Quote) relationship with new rank (like or dislike)
+//      */
+//
+//     $.ajax({
+//         url: 'http://localhost:8000/api/quoterank/',
+//         method: 'PUT',
+//         credentials: 'include',
+//         headers: {
+//             "Content-type": "application/json",
+//             "X-CSRFToken": csrf_token()
+//         },
+//         data: {
+//             rank: rank
+//         },
+//         statusCode: {
+//             400: function() {
+//                 console.log("here")
+//             }
+//         },
+//         success: function (data) {
+//             /* Update state */
+//             state.rank = data.rank;
+//
+//             /* Update HTML */
+//             disable_buttons()
+//         }
+//     }).fail(function (err) {
+//             console.log("hello");
+//             console.log(err)
+//         });
+// }
+
+function rank_quote(rank) {
     /** PUT QuoteRank
      * Update (Profile, Quote) relationship with new rank (like or dislike)
      */

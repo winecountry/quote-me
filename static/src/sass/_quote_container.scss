@@ -1,8 +1,21 @@
+$quote-container-color: steelblue;
+
+article h3 {
+  align-self: flex-start;
+  margin-top: 100px;
+  margin-left: 50px;
+  font-size: 3em;
+  font-family: 'Railway', cursive;
+  padding-bottom: 25px;
+  width: 40vw;
+  border-bottom: 5px double #1b3249;
+}
+
 #quote_container {
   font-family: $font-stack;
   max-width: 65vw;
-  background-color: transparentize($accent-color, 0.2);
-  border: 2px solid $theme-color;
+  background-color: transparentize(lighten($accent-color, 20%), 0.2);
+  border: 2px solid $quote-container-color;
   box-shadow: 0 3px 15px transparentize(black, 0.4);
   overflow: hidden;
 
@@ -19,6 +32,6 @@
     padding: 10px 20px;
     font-size: 1.3em;
     color: $accent-color;
-    background-color: $theme-color-highlight;
+    background-color: $quote-container-color;
   }
 }

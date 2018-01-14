@@ -437,62 +437,6 @@ template {
   display: none;
 }
 
-#navbar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  width: 100vw;
-  padding: 0 2%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-size: 1.3em;
-  background-color: ghostwhite;
-}
-
-#navbar #kwoat {
-  font-size: 1.6em;
-  text-decoration: none;
-}
-
-#navbar #kwoat .primary {
-  color: green;
-}
-
-#navbar #kwoat .secondary {
-  color: purple;
-}
-
-#navbar a {
-  color: #1b3249;
-}
-
-#navbar ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  list-style: none;
-}
-
-#navbar ul li {
-  padding-right: 80px;
-}
-
-#navbar ul li a {
-  text-decoration: none;
-}
-
 body {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -509,55 +453,77 @@ body {
           justify-content: flex-start;
   min-height: 100vh;
   color: #1b3249;
-  background-color: whitesmoke;
-}
-
-h3 {
-  -ms-flex-item-align: start;
-      align-self: flex-start;
-  margin-top: 100px;
-  margin-left: 50px;
-  font-size: 3em;
-  font-family: 'Railway', cursive;
-  padding-bottom: 25px;
-  width: 40vw;
-  border-bottom: 5px double #1b3249;
+  background-color: ghostwhite;
 }
 
 article {
   margin: auto 0;
 }
 
-#quote_container {
-  font-family: "Playfair Display", cursive;
-  max-width: 65vw;
-  background-color: rgba(248, 248, 255, 0.8);
-  border: 2px solid #1b3249;
-  -webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
-          box-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
-  overflow: hidden;
+#profile_container {
+  width: 90vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
-#quote_container blockquote {
+#navbar {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  padding: 40px;
-  margin: 0;
-  font-size: 1.8em;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100vw;
+  padding: 0 2%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-size: 1.3em;
+  background-color: whitesmoke;
 }
 
-#quote_container #author {
-  padding: 10px 20px;
-  font-size: 1.3em;
-  color: ghostwhite;
-  background-color: steelblue;
+#navbar #kwoat {
+  font-size: 1.6em;
+  text-decoration: none;
+}
+
+#navbar #kwoat .primary {
+  color: green;
+}
+
+#navbar #kwoat .secondary {
+  color: purple;
+}
+
+#navbar a {
+  color: #206f38;
+}
+
+#navbar ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  list-style: none;
+}
+
+#navbar ul li {
+  padding: 0 40px;
+}
+
+#navbar ul li a {
+  text-decoration: none;
 }
 
 .rank {
@@ -576,7 +542,7 @@ article {
 .rank button {
   width: 110px;
   height: 110px;
-  background-color: ghostwhite;
+  background-color: whitesmoke;
   font-size: 3em;
   border-radius: 50%;
 }
@@ -614,5 +580,49 @@ article {
 }
 
 .rank button:disabled {
-  background-color: ghostwhite;
+  background-color: whitesmoke;
+}
+
+article h3 {
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+  margin-top: 100px;
+  margin-left: 50px;
+  font-size: 3em;
+  font-family: 'Railway', cursive;
+  padding-bottom: 25px;
+  width: 40vw;
+  border-bottom: 5px double #1b3249;
+}
+
+#quote_container {
+  font-family: "Playfair Display", cursive;
+  max-width: 65vw;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid steelblue;
+  -webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+#quote_container blockquote {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 40px;
+  margin: 0;
+  font-size: 1.8em;
+}
+
+#quote_container #author {
+  padding: 10px 20px;
+  font-size: 1.3em;
+  color: whitesmoke;
+  background-color: steelblue;
 }

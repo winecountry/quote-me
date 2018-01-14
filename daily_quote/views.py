@@ -19,6 +19,7 @@ def user_profile(request, username):
 
         quoterank = profile.recommend()
 
+        context['profile'] = profile
         context['quote'] = quoterank.quote
         context['rank'] = quoterank.rank
 
