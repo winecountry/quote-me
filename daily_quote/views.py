@@ -5,23 +5,21 @@ from daily_quote.models import Profile, Quote, QuoteRank
 
 
 def home(request):
+    context = {}
+
     if request.user.is_authenticated:
         quote = request.user.profile.recommend().quote
+        context['quote'] = quote
+        context['rank'] = QuoteRank.objects.get(profile=request.user.profile, quote=quote).rank
     else:
-        quote = Quote.random_quote()
-
-    context = {
-        'current_route': 'home',
-        'quote': quote,
-        'rank': QuoteRank.objects.get(profile=request.user.profile, quote=quote).rank
-    }
+        context['quote'] = Quote.random_quote()
+        context['rank'] = 0
 
     return render(request, 'daily_quote/home.html', context)
 
 
 def user_profile(request, username):
     context = {
-        'current_route': 'profile',
         'my_profile': False,
     }
 
