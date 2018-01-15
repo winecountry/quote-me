@@ -453,7 +453,7 @@ body {
           justify-content: flex-start;
   min-height: 100vh;
   color: #1b3249;
-  background-color: ghostwhite;
+  background-color: #E2E2E2;
 }
 
 article {
@@ -461,6 +461,7 @@ article {
 }
 
 #profile_container {
+  margin-top: 8%;
   width: 90vw;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -470,7 +471,14 @@ article {
           justify-content: center;
 }
 
+#profile_container.active {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
 #navbar {
+  position: fixed;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -494,11 +502,11 @@ article {
 }
 
 #navbar #kwoat .primary {
-  color: green;
+  color: #6B8F71;
 }
 
 #navbar #kwoat .secondary {
-  color: purple;
+  color: #575D90;
 }
 
 #navbar a {
@@ -599,7 +607,7 @@ article h3 {
   font-family: "Playfair Display", cursive;
   max-width: 65vw;
   background-color: rgba(255, 255, 255, 0.8);
-  border: 2px solid steelblue;
+  border: 2px solid #575D90;
   -webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
           box-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
   overflow: hidden;
@@ -624,5 +632,5 @@ article h3 {
   padding: 10px 20px;
   font-size: 1.3em;
   color: whitesmoke;
-  background-color: steelblue;
+  background-color: #575D90;
 }

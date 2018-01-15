@@ -1,4 +1,5 @@
 #navbar {
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -12,11 +13,11 @@
     font-size: 1.6em;
 
     .primary {
-      color: green;
+      color: $theme-color-light;
     }
 
     .secondary {
-      color: purple;
+      color: $theme-color-accent;
     }
 
     text-decoration: none;

@@ -1,5 +1,10 @@
 #profile_container {
+  margin-top: 8%;
   width: 90vw;
   display: flex;
   justify-content: center;
+
+  &.active {
+    justify-content: space-between;
+  }
 }
