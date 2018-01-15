@@ -20,7 +20,6 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('daily_quote.api.urls')),
     url(r'^login/$', auth_views.login, name='login'),
