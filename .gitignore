@@ -1,4 +1,5 @@
 .env
+.env_test
 .idea
 .sass-cache
 **/__pycache__
@@ -6,4 +7,3 @@ daily_quote/static/daily_quote/images/*.ai
 data
 env
 node_modules
-recreate_db.sh

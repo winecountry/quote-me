@@ -13,6 +13,16 @@
 
 {% block no_display %}
     {% if not my_profile %}
-    style="display: none;"
+        style="display: none;"
     {% endif %}
 {% endblock no_display %}
+
+{% block feed %}
+    <div id="feed">
+        <ul>
+        {% for my_quote in quotes %}
+            <li>{{ my_quote }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock feed %}

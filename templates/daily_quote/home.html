@@ -2,3 +2,9 @@
 
 {% block home %}
 {% endblock home %}
+
+{% block no_display %}
+    {% if not authenticated %}
+        style="display: none;"
+    {% endif %}
+{% endblock no_display %}

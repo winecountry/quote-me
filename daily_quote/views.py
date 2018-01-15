@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import render
 
@@ -5,7 +6,9 @@ from daily_quote.models import Profile, Quote, QuoteRank
 
 
 def home(request):
-    context = {}
+    context = {
+        'authenticated': request.user.is_authenticated
+    }
 
     if request.user.is_authenticated:
         quote = request.user.profile.recommend().quote
@@ -35,6 +38,7 @@ def user_profile(request, username):
         context['profile'] = profile
         context['quote'] = quoterank.quote
         context['rank'] = quoterank.rank
+        context['quotes'] = Quote.objects.filter(profile=profile)
 
     except Profile.DoesNotExist:
         raise Http404("Profile Does Not Exist")

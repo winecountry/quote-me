@@ -1,0 +1,13 @@
+#feed {
+  font-family: $font-stack;
+  background-color: transparentize(lighten($accent-color, 20%), 0.2);
+  border: 2px solid $quote-container-color;
+  margin: 200px 0;
+
+  ul {
+    padding: 0 40px;
+    li {
+      list-style: none;
+    }
+  }
+}
