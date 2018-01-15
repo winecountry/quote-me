@@ -12,7 +12,7 @@ def home(request):
     else:
         quote = Quote.random_quote()
 
-    return render(request, 'quote_me/home.html', {'quote': quote})
+    return render(request, 'daily_quote/home.html', {'quote': quote})
 
 
 def signup(request):
@@ -27,4 +27,4 @@ def signup(request):
             return redirect(settings.LOGIN_REDIRECT_URL)
     else:
         form = SignUpForm()
-    return render(request, 'quote_me/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
