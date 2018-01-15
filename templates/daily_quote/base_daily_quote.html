@@ -16,8 +16,16 @@
                 <div id="author">&mdash; {{ quote.author }}</div>
             </div>
 
-            {% block rank_controls %}
-            {% endblock rank_controls %}
+            <div id="buttons" class="rank" {% block no_display %}{% endblock %}>
+                <button id="like"
+                    {% if rank != 0 %} disabled {% endif %}
+                    {% if rank == 1 %} class="selected" {% endif %}
+                ></button>
+                <button id="dislike"
+                    {% if rank != 0 %} disabled {% endif %}
+                    {% if rank == -1 %} class="selected" {% endif %}
+                ></button>
+            </div>
         </article>
 
         {% block feed %}

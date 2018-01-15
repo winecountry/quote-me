@@ -11,17 +11,8 @@
     </aside>
 {% endblock profile_info %}
 
-{% block rank_controls %}
-    {% if my_profile %}
-        <div id="buttons" class="rank">
-            <button id="like"
-                    {% if rank != 0 %} disabled {% endif %}
-                    {% if rank == 1 %} class="selected" {% endif %}
-            ></button>
-            <button id="dislike"
-                    {% if rank != 0 %} disabled {% endif %}
-                    {% if rank == -1 %} class="selected" {% endif %}
-            ></button>
-        </div>
+{% block no_display %}
+    {% if not my_profile %}
+    style="display: none;"
     {% endif %}
-{% endblock rank_controls %}
+{% endblock no_display %}
