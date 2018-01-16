@@ -10,8 +10,7 @@ env:
   global:
   - secure: fiTaZnf4TXFFpq+20Fnmap9OaG5Mf0G0K3l1f5hZHZxWPLZKnBLKwXU8BmwDFRdu/Qe8IL0Lo+FlbvyRkz32fKMBFRnET9x92xnj3/NKnel4rbEBUn9k7tavBk6zYa/fICuJan8np/5CyyX1FhdYYYweDNTrCgPxfRg3XZ+bjy4q9NymZ4gMTXWVWgUiCr1az06IwNtqlQDOhNkJUY2oP174RbLZEYGAyW7nKNJhy1S4wK6vDT6JytX/RVVo8Q2cCkiZ5lD0vsa5GSGUok1PoJud10Djz6Qc15eeP73MDLD0Oi9EDujBjvaG0af3k0BRqlhQdl1CKPkvu7q+yeTEO5EDOqhG9jf9xvQvby/8duPLEN0mx27ULwfsTxwayaOAW2VIMuXhCwdBzdj9i2yrttK7V9TmIrGN4Y9VmQBIr7yAEnnNdJvMk7GymY+4lknIze/r8o14a2kudfMTNYzViMTJHwcr36+vuoqHjwAm0aCQhtcjW66o+GiY4o2QDx21zp2wgrF1+f6y7ASHbGkTRrnMYcWlMLrqtW1SOWCSDrPT2BDQZRwc8KnRH53AlyAgcf6+/6xd/oXr+4h8KzlGvhHcZp+RCgbWhmAWh9Jtk5HOzpkPSk7MvCkrNg0D1uY2G1tHT1ihOiNQ9Ti820Jvq/f49AIkCGMi0jbu7DfylJY=
 addons:
-    sauce_connect:
-      direct_domains: all
+    sauce_connect: true
 install: 
 - pip install -r requirements.txt
 - npm install
