@@ -1,0 +1,12 @@
+{% extends "daily_quote/profile.html" %}
+
+{% block profile_info %}
+<div id="profile-editing">
+    <form action="{% url 'profile' request.user.username %}" method="POST">
+        {% csrf_token %}
+        {{ user_edit_form.as_p }}
+        {{ profile_edit_form.as_p }}
+        <button id="submit-button" type="submit">Save</button>
+    </form>
+</div>
+{% endblock profile_info %}

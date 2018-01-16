@@ -5,8 +5,8 @@
 {% endblock home %}
 
 <div id="profile_container" {% block profile_active %}{% endblock %}>
-    {% block profile_info %}
-    {% endblock profile_info %}
+    {% block user_profile %}
+    {% endblock user_profile %}
 
     <div id="quotes">
         <article>
@@ -16,16 +16,18 @@
                 <div id="author">&mdash; {{ quote.author }}</div>
             </div>
 
-            <div id="buttons" class="rank" {% block no_display %}{% endblock %}>
-                <button id="like"
-                    {% if rank != 0 %} disabled {% endif %}
-                    {% if rank == 1 %} class="selected" {% endif %}
-                ></button>
-                <button id="dislike"
-                    {% if rank != 0 %} disabled {% endif %}
-                    {% if rank == -1 %} class="selected" {% endif %}
-                ></button>
-            </div>
+            {% block rank_buttons %}
+                <div id="buttons" class="rank">
+                    <button id="like"
+                        {% if rank != 0 %} disabled {% endif %}
+                        {% if rank == 1 %} class="selected" {% endif %}
+                    ></button>
+                    <button id="dislike"
+                        {% if rank != 0 %} disabled {% endif %}
+                        {% if rank == -1 %} class="selected" {% endif %}
+                    ></button>
+                </div>
+            {% endblock rank_buttons %}
         </article>
 
         {% block feed %}

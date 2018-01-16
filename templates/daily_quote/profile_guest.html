@@ -1,0 +1,16 @@
+{% extends "daily_quote/profile.html" %}
+
+{% block profile_info %}
+<div id="profile-guest">
+    <p><span>Username</span><span>{{ profile.user.username }}</span></p>
+    <p><span>Email</span><span>{{ profile.user.email }}</span></p>
+    <p><span>First name</span><span>{% if profile.first_name %} {{ profile.first_name }} {% else %} Not yet added! {% endif %}</span></p>
+    <p><span>Last name</span><span>{% if profile.last_name %} {{ profile.last_name }} {% else %} Not yet added! {% endif %}</span></p>
+    <p><span>Location</span><span>{% if profile.location %} {{ profile.location }} {% else %} Not yet added! {% endif %}</span></p>
+    <p><span>Birth date</span><span>{% if profile.birth_date %} {{ profile.birth_date }} {% else %} Not yet added! {% endif %}</span></p>
+    <p><span>Bio</span><span>{% if profile.bio %} {{ profile.bio }} {% else %} Not yet added! {% endif %}</span></p>
+</div>
+{% endblock profile_info %}
+
+{% block rank_buttons %}
+{% endblock %}

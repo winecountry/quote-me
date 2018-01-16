@@ -466,6 +466,12 @@ article {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#profile_container.active {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
@@ -474,8 +480,87 @@ article {
 #profile_container #profile {
   position: fixed;
   left: 0;
-  max-width: 25vw;
-  padding-left: 5vw;
+  top: 14%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 30vw;
+  margin: 0 2vw 0 3vw;
+  height: 80vh;
+  overflow: hidden;
+  background: whitesmoke fixed;
+}
+
+#profile_container #profile #profile-header {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  min-height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: #206f38;
+  color: whitesmoke;
+  padding: 0 20px;
+}
+
+#profile_container #profile #profile-header h3 {
+  font-weight: normal;
+  margin: 20px 0;
+}
+
+#profile_container #profile #profile-header a {
+  color: inherit;
+}
+
+#profile_container #profile-editing, #profile_container #profile-guest, #profile_container #profile-user {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 27vw;
+}
+
+#profile_container #profile-editing p, #profile_container #profile-guest p, #profile_container #profile-user p {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 15px 0;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#profile_container #profile-editing p span.helptext, #profile_container #profile-guest p span.helptext, #profile_container #profile-user p span.helptext {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+
+#profile_container #profile-editing textarea {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
 }
 
 #navbar {
@@ -593,8 +678,12 @@ article {
 }
 
 #quotes {
-  max-width: 65vw;
-  padding-right: 5vw;
+  max-width: 54vw;
+  padding: 0 8vw 0 8vw;
+}
+
+#profile_container.active #quotes {
+  padding: 0 6vw 0 10vw;
 }
 
 #quotes article h3 {
@@ -653,4 +742,8 @@ article {
 
 #feed ul li {
   list-style: none;
+}
+
+.hide {
+  display: none !important;
 }
