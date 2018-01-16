@@ -1,11 +1,17 @@
+from os import environ
+
 from django.contrib.auth.models import AnonymousUser, User
 from django.test import LiveServerTestCase, TransactionTestCase
 from selenium.webdriver.common.by import By
-
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from django.test import LiveServerTestCase, TestCase, TransactionTestCase
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait
 
-from daily_quote.models import Author, Quote
+from daily_quote.models import Author, Profile, Quote
 
 
 class LoginTestCase(TransactionTestCase):
@@ -65,43 +71,72 @@ class SignupTestCase(TransactionTestCase):
         self.assertEqual(response.context['user'], user)
 
 
-class FunctionalTestCase(LiveServerTestCase):
-    fixtures = ['authors.json', 'quotes.json']
-
-    signup_url = 'http://127.0.0.1:8000/signup/'
-    profile_url = 'http://127.0.0.1:8000/alice/'
-    home_url = 'http://127.0.0.1:8000/'
-    login_url = 'http://127.0.0.1:8000/login/'
-    logout_url = 'http://127.0.0.1:8000/logout/'
-
-    def signup(self):
-        selenium = self.selenium
-        selenium.get(self.signup_url)
-        wait = WebDriverWait(selenium, 10)
-        print(selenium.page_source)
-        first_name = wait.until(expected_conditions.presence_of_element_located((By.ID, 'id_first_name')))
-        last_name = selenium.find_element_by_id('id_last_name')
-        username = selenium.find_element_by_id('id_username')
-        email = selenium.find_element_by_id('id_email')
-        password1 = selenium.find_element_by_id('id_password1')
-        password2 = selenium.find_element_by_id('id_password2')
-
-        first_name.send_keys('alice')
-        username.send_keys('alice')
-        email.send_keys('alice@gmail.com')
-        password1.send_keys('pass1234')
-        password2.send_keys('pass1234')
-
-        selenium.find_element_by_id('submit-button').click()
-
-    def login(self):
-        selenium = self.selenium
-        selenium.get(self.login_url)
-
-        username = selenium.find_element_by_id('id_username')
-        password = selenium.find_element_by_id('id_password')
-
-        username.send_keys('alice')
-        password.send_keys('pass1234')
-
-        selenium.find_element_by_id('submit-button').click()
+#class FunctionalTestCase(LiveServerTestCase):
+#    signup_url = 'http://127.0.0.1:8000/signup/'
+#    profile_url = 'http://127.0.0.1:8000/alice/'
+#    home_url = 'http://127.0.0.1:8000/'
+#    login_url = 'http://127.0.0.1:8000/login/'
+#    logout_url = 'http://127.0.0.1:8000/logout/'
+#
+#
+#    def signup(self):
+#        selenium = self.selenium
+#        selenium.get(self.signup_url)
+#
+#        first_name = selenium.find_element_by_id('id_first_name')
+#        last_name = selenium.find_element_by_id('id_last_name')
+#        username = selenium.find_element_by_id('id_username')
+#        email = selenium.find_element_by_id('id_email')
+#        password1 = selenium.find_element_by_id('id_password1')
+#        password2 = selenium.find_element_by_id('id_password2')
+#
+#        first_name.send_keys('alice')
+#        username.send_keys('alice')
+#        email.send_keys('alice@gmail.com')
+#        password1.send_keys('pass1234')
+#        password2.send_keys('pass1234')
+#        
+#        selenium.find_element_by_id('submit-button').click()
+#    
+#    def login(self):
+#        selenium = self.selenium
+#        selenium.get(self.login_url)
+#
+#        username = selenium.find_element_by_id('id_username')
+#        password = selenium.find_element_by_id('id_password')
+#
+#        username.send_keys('alice')
+#        password.send_keys('pass1234')
+#        
+#        selenium.find_element_by_id('submit-button').click()
+#
+#class FunctionalTests(FunctionalTestCase):
+#
+#    def setUp(self):
+#        if "TRAVIS" in environ:
+#            username = environ["SAUCE_USERNAME"]
+#            access_key = environ["SAUCE_ACCESS_KEY"]
+#            # Create a desired capabilities object as a starting point.
+#            capabilities = DesiredCapabilities.FIREFOX.copy()
+#            capabilities['platform'] = "WINDOWS"
+#            capabilities["tunnel-identifier"] = environ["TRAVIS_JOB_NUMBER"]
+#            capabilities["build"] = environ["TRAVIS_BUILD_NUMBER"]
+#            capabilities["tags"] = [environ["TRAVIS_PYTHON_VERSION"], "CI"]
+#            hub_url = "%s:%s@localhost:4445" % (username, access_key)
+#            self.selenium = webdriver.Remote(desired_capabilities=capabilities, command_executor="http://%s/wd/hub" % hub_url)
+#        else:   
+#            self.selenium = webdriver.Safari()
+#            super(FunctionalTests, self).setUp()
+#
+#    def tearDown(self):
+#        self.selenium.quit()
+#        super(FunctionalTests, self).tearDown()
+#
+#    def test_register(self):
+#        selenium = self.selenium
+#        self.signup()
+#        wait = WebDriverWait(selenium, 10)
+#        wait.until(lambda selenium: selenium.current_url != self.signup_url)
+#        print(selenium.current_url)
+#
+#        assert 'alice' in selenium.page_source
