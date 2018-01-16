@@ -1,6 +1,10 @@
 from os import environ
 
 from django.contrib.auth.models import AnonymousUser, User
+from django.test import LiveServerTestCase, TransactionTestCase
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 from django.test import LiveServerTestCase, TestCase, TransactionTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -65,6 +69,7 @@ class SignupTestCase(TransactionTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context['user'].is_active)
         self.assertEqual(response.context['user'], user)
+
 
 #class FunctionalTestCase(LiveServerTestCase):
 #    signup_url = 'http://127.0.0.1:8000/signup/'

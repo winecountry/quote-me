@@ -1,113 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display|Raleway');
-
-$bg-color: whitesmoke;
-$accent-color: ghostwhite;
-
-$theme-color: #1b3249;
-$theme-color-highlight: steelblue;
-
-$btn-like-color: forestgreen;
-$btn-dislike-color: #cc1111;
-
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    background-color: $bg-color;
-}
-
-h1 {
-    align-self: flex-start;
-    margin-top: 100px;
-    margin-left: 50px;
-    font-size: 3em;
-    font-family: 'Railway', cursive;
-    color: #1b3249;
-    padding-bottom: 10px;
-    width: 33vw;
-    border-bottom: 5px double #1b3249;
-}
-
-main {
-    margin: auto 0;
-}
-
-#quote_container {
-    font-family: 'Playfair Display', cursive;
-    max-width: 65vw;
-    color: $theme-color;
-    background-color: transparentize($accent-color, 0.2);
-    border: 2px solid $theme-color;
-    box-shadow: 0 3px 15px transparentize(black, 0.4);
-    overflow: hidden;
-}
-
-#quote_container blockquote {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-    margin: 0;
-    font-size: 1.8em;
-}
-
-#quote_container #author {
-    padding: 10px 20px;
-    font-size: 1.3em;
-    color: $accent-color;
-    background-color: $theme-color-highlight;
-}
-
-.rank {
-    min-width: 400px;
-    margin-top: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.rank button {
-    width: 110px;
-    height: 110px;
-    background-color: $accent-color;
-    font-size: 3em;
-    border-radius: 50%;
-}
-
-.rank #like {
-    background-image: image-url("SVG/like.svg");
-}
-
-.rank #dislike {
-    background-image: image-url("SVG/dislike.svg");
-}
-
-.rank #like:active {
-    background: $btn-like-color image-url("SVG/like-active.svg");
-}
-
-.rank #dislike:active {
-    background: $btn-dislike-color image-url("SVG/dislike-active.svg");
-}
-
-.rank button:disabled {
-    background-color: $accent-color;
-}
-
-.rank #like:disabled {
-    background-image: image-url("SVG/like-disabled.svg");
-}
-
-.rank #dislike:disabled {
-    background-image: image-url("SVG/dislike-disabled.svg");
-}
-
-.rank #like.selected {
-    background-color: transparentize($btn-like-color, 0.4);
-}
-
-.rank #dislike.selected {
-    background-color: transparentize($btn-dislike-color, 0.4);
-}
+@import "bourbon"; // see sass task in gulpfile
+@import "normalize"; // see sass task in gulpfile
+@import "sass-image";
+@import "variables";
+@import "mixins";
+@import "base";
+@import "profile";
+@import "navbar";
+@import "rank_buttons";
+@import "quote_container";
+@import "feed";
+@import 'sass-image';

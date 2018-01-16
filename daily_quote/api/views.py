@@ -23,14 +23,21 @@ class QuoteRankUpdate(generics.UpdateAPIView):
     serializer_class = QuoteRankSerializer
 
     def get_object(self):
+        # print("============================START============================")
+        # print("REQUEST", self.request.__dict__)
+        # print("DJANGO REQUEST", self.request.authenticators[1].__dict__)
+        # print("AUTHENTICATORS", self.request.authenticators)
+        # print("  SESSION", self.request.authenticators[0].__dict__)
+        # print("  BASIC", self.request.authenticators[1].__dict__)
+        # print("=============================END=============================")
         user = self.request.user
         quote = user.profile.current_quote
         return QuoteRank.objects.get(profile__user=user, quote=quote)
 
-    def put(self, request, *args, **kwargs):
-        # default database update
-        self.update(request, *args, **kwargs)
-
-        # Return JSON data
-        serializer = self.serializer_class(self.get_object())
-        return Response(serializer.data)
+    # def put(self, request, *args, **kwargs):
+    #     # default database update
+    #     self.update(request, *args, **kwargs)
+    #
+    #     # Return JSON data
+    #     serializer = self.serializer_class(self.get_object())
+    #     return Response(serializer.data)

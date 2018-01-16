@@ -1,4 +1,5 @@
 .env
+.env_test
 .idea
 .sass-cache
 **/__pycache__

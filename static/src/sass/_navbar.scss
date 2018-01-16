@@ -1,0 +1,44 @@
+#navbar {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  padding: 0 2%;
+  box-sizing: border-box;
+  font-size: 1.3em;
+  background-color: $accent-color;
+
+  #kwoat {
+    font-size: 1.6em;
+
+    .primary {
+      color: $theme-color-light;
+    }
+
+    .secondary {
+      color: $theme-color-accent;
+    }
+
+    text-decoration: none;
+  }
+
+  a {
+    color: $theme-color-main;
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+
+    li {
+      padding: 0 40px;
+
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+}

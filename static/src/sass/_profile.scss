@@ -1,0 +1,13 @@
+#profile_container {
+  margin-top: 8%;
+  width: 100vw;
+  display: flex;
+  justify-content: flex-end;
+
+  #profile {
+    position: fixed;
+    left: 0;
+    max-width: 25vw;
+    padding-left: 5vw;
+  }
+}
