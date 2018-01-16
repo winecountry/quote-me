@@ -44,3 +44,21 @@ def user_profile(request, username):
         raise Http404("Profile Does Not Exist")
 
     return render(request, 'daily_quote/profile.html', context)
+
+
+def rank_quote(request, rank=0):
+    user = request.user
+    quote = user.profile.current_quote
+    quoterank = QuoteRank.objects.get(profile__user=user, quote=quote)
+    quoterank.rank = rank
+    quoterank.save()
+
+    context = {
+        'my_profile': True,
+        'profile': user.profile,
+        'quote': quote,
+        'rank': rank,
+        'quotes': Quote.objects.filter(profile__user=user),
+    }
+
+    return render(request, 'daily_quote/profile.html', context)

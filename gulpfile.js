@@ -57,7 +57,7 @@ gulp.task('sass-image', function () {
 });
 
 // compile sass
-gulp.task('sass', function () {
+gulp.task('sass', ['sass-image'], function () {
     gulp.src(masterSassSources)
         .pipe(gulpif(env === PRODUCTION, sourcemaps.init()))
         .pipe(sass({
@@ -89,12 +89,12 @@ gulp.task('js', function () {
         .pipe(gulp.dest(paths.js))
 });
 
-gulp.task('watch', ['sass-image'], function () {
+gulp.task('watch', function () {
     // reload page after html changes
     gulp.watch(templateSources).on('change', browserSync.reload);
 
     // update paths after image changes
-    gulp.watch(imageSources, ['sass-image']);
+    gulp.watch(imageSources, ['sass']);
 
     // inject css after sass changes
     gulp.watch(sassSources, ['sass']);

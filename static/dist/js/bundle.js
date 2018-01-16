@@ -112,13 +112,17 @@
             });
 
             // New AJAX request
-            request.open('PUT', 'http://localhost:8000/api/quoterank/');
+            if (rank === 1) {
+                request.open('GET', 'http://localhost:8000/like/');
+            } else if (rank === -1) {
+                request.open('GET', 'http://localhost:8000/dislike/');
+            }
 
             /* Set Headers */
             // sending JSON data
-            request.setRequestHeader("Content-type", 'application/json');
+            // request.setRequestHeader("Content-type", 'application/json');
             // cross site request forgery
-            request.setRequestHeader('X-CSRFToken', csrf_token());
+            // request.setRequestHeader('X-CSRFToken', csrf_token());
 
             request.onload = function () {
                 if (request.status === 200) {
@@ -127,7 +131,7 @@
                     state.rank = data.rank;
 
                     /* Update HTML */
-                    disable_buttons();
+                    // disable_buttons()
                 }
             };
 
