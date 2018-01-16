@@ -98,9 +98,8 @@ WSGI_APPLICATION = 'quote_me.wsgi.application'
 
 # DATABASES['default'] = dj_database_url.config(postgres://USER:PASSWORD@HOST:PORT/NAME)
 
-DATABASES = {
-    'default': dj_database_url.config()
-}
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -145,10 +144,10 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 AWS_LOCATION = 'static'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'static'),
 ]
 STATIC_ROOT = 'static/dist/'
-# STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+ STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
