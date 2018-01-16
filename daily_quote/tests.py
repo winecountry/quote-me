@@ -1,7 +1,17 @@
-from django.contrib.auth.models import User
-from django.test import TestCase
+from os import environ
+from time import sleep
 
-from daily_quote.models import Profile, Quote
+from django.contrib.auth.models import User
+from django.test import LiveServerTestCase, TestCase
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
+from daily_quote.models import Profile, Quote, QuoteRank
+from quote_me.tests import FunctionalTestCase
 
 
 class DailyQuoteTests(TestCase):
@@ -52,5 +62,63 @@ class DailyQuoteTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
 
-class QuoteRecommendationTests(TestCase):
-    fixtures = ['authors.json', 'quotes.json']
+#class FunctionalTests(FunctionalTestCase):
+#    fixtures = ['authors.json', 'quotes.json']
+#
+#    def click_like_button(self):
+#        selenium = self.selenium
+#        
+#        like_button = selenium.find_element_by_id('like')
+#        wait = WebDriverWait(selenium, 10)
+#        wait.until(EC.presence_of_element_located((By.ID, "like")))
+#        like_button.click()
+#        wait = WebDriverWait(selenium, 10)
+#        wait.until(lambda selenium: selenium.find_element_by_id('like').get_attribute('disabled') == True)
+#
+#    def setUp(self):
+#        User.objects.create_user('alice', 'alice@gmail.com', 'pass1234')
+#
+#        if "TRAVIS" in environ:
+#            username = environ["SAUCE_USERNAME"]
+#            access_key = environ["SAUCE_ACCESS_KEY"]
+#            # Create a desired capabilities object as a starting point.
+#            capabilities = DesiredCapabilities.FIREFOX.copy()
+#            capabilities['platform'] = "WINDOWS"
+#            capabilities["tunnel-identifier"] = environ["TRAVIS_JOB_NUMBER"]
+#            capabilities["build"] = environ["TRAVIS_BUILD_NUMBER"]
+#            capabilities["tags"] = [environ["TRAVIS_PYTHON_VERSION"], "CI"]
+#            hub_url = "%s:%s@localhost:4445" % (username, access_key)
+#            self.selenium = webdriver.Remote(desired_capabilities=capabilities, command_executor="http://%s/wd/hub" % hub_url)
+#        else:   
+#            self.selenium = webdriver.Safari()
+#            super(FunctionalTestCase, self).setUp()
+#
+#    def tearDown(self):
+#        QuoteRank.objects.all().delete()
+#        Profile.objects.all().delete()
+#        User.objects.all().delete()
+#
+#        self.selenium.quit()
+#        super(FunctionalTestCase, self).tearDown()
+#
+#    def test_like_button_home(self):
+#        selenium = self.selenium
+#        selenium.get('http://127.0.0.1:8000')
+#
+#        self.click_like_button()
+#        
+#        self.assertIn('selected', like_button.get_attribute('class'))
+
+#    def test_like_button_profile(self):
+#        selenium = self.selenium
+#        self.login()
+#        wait = WebDriverWait(selenium, 10)
+#        wait.until(lambda selenium: 'alice' in selenium.page_source)
+#        selenium.get('http://127.0.0.1:8000/alice')
+#        wait = WebDriverWait(selenium, 10)
+#        wait.until(lambda selenium: selenium.current_url == self.profile_url)
+#
+#        print(selenium.page_source)
+#        self.click_like_button()
+#
+#        self.assertIn('selected', like_button.get_attribute('class'))
