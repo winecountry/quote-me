@@ -7,3 +7,9 @@ data
 env
 node_modules
 recreate_db.sh
+
+!static/dist/
+
+static/dist/*
+!static/dist/js
+!static/dist/css
