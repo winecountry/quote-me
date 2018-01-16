@@ -8,6 +8,7 @@ data
 env
 node_modules
 recreate_db.sh
+static/images/*.ai
 
 !static/dist/
 
