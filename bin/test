@@ -1,4 +1,0 @@
-mv .env .env_$(date +%F'-'%T)
-cp .env_test .env
-source .env
-python manage.py test
