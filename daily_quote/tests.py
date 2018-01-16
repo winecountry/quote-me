@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from daily_quote.models import Profile, Quote
+from quote_me.tests import FunctionalTestCase
 
 
 class DailyQuoteTests(TestCase):
@@ -54,3 +55,19 @@ class DailyQuoteTests(TestCase):
 
 class QuoteRecommendationTests(TestCase):
     fixtures = ['authors.json', 'quotes.json']
+
+
+class FunctionalTests(FunctionalTestCase):
+    def test_like_button_profile(self):
+        selenium = self.selenium
+        selenium.maximize_window()
+        self.signup()
+        wait = WebDriverWait(selenium, 10)
+        wait.until(lambda driver: 'alice' in driver.page_source)
+        selenium.get('http://127.0.0.1:8000/alice')
+        wait.until(lambda driver: driver.current_url == self.profile_url)
+        like_button = wait.until(expected_conditions.element_to_be_clickable((By.ID, "like")))
+        like_button.click()
+        # wait.until(lambda driver: driver.current_url != self.profile_url)
+        self.assertIn('selected', like_button.get_attribute('class'))
+        self.assertTrue(like_button.get_attribute('disabled'))

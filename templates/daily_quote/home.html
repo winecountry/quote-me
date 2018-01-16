@@ -1,10 +1,9 @@
 {% extends "daily_quote/base_daily_quote.html" %}
 
 {% block home %}
-{% endblock home %}
-
-{% block no_display %}
-    {% if not authenticated %}
-        style="display: none;"
+    {% if user.is_authenticated %}
+        <p class="display-4">Hello, {{ user.username }}</p>
+    {% else %}
+        <a class="lead" href="{% url 'login' %}">Log in</a>
     {% endif %}
-{% endblock no_display %}
+{% endblock home %}
