@@ -4,24 +4,24 @@
     class="active"
 {% endblock profile_active%}
 
-{% block profile_info %}
+{% block user_profile %}
     <aside id="profile">
-        <h3>{{ profile.user.username }}</h3>
-        <p>{{ profile.bio }}</p>
+        <div id="profile-header">
+            <h3>{{ profile.user.username }}</h3>
+            {% block edit_button %}{% endblock %}
+        </div>
+        {% block profile_info %}
+            {{ user_edit_form.as_p }}
+            {{ profile_edit_form.as_p }}
+        {% endblock profile_info %}
     </aside>
-{% endblock profile_info %}
-
-{% block no_display %}
-    {% if not my_profile %}
-        style="display: none;"
-    {% endif %}
-{% endblock no_display %}
+{% endblock user_profile %}
 
 {% block feed %}
     <div id="feed">
         <ul>
-        {% for my_quote in quotes %}
-            <li>{{ my_quote }}</li>
+        {% for feed_quote in quotes %}
+            <li>{{ feed_quote }}</li>
         {% endfor %}
         </ul>
     </div>

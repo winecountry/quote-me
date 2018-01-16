@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.forms import inlineformset_factory
 
-# from daily_quote.forms import ProfileEditForm, UserEditForm
+from daily_quote.forms import ProfileEditForm, UserEditForm
 from daily_quote.models import Profile, Quote, QuoteRank
 
 
@@ -29,37 +29,43 @@ def user_profile(request, username):
         'my_profile': False,
     }
 
+    user_edit_form = None
+    profile_edit_form = None
+
     try:
-        if request.user.username == username:
+        if request.user.username == username:  # my profile page
+            template_name = 'daily_quote/profile_user.html'
             context['my_profile'] = True
             profile = request.user.profile
 
-            # if request.method == 'POST':
-            #     user_edit_form = UserEditForm(request.POST, instance=request.user)
-            #     profile_edit_form = ProfileEditForm(request.POST, instance=request.user.profile)
-            #
-            #     if all(user_edit_form.is_valid(), profile_edit_form.is_valid()):
-            #         user = user_edit_form.save()
-            #         profile = profile_edit_form.save()
-        else:
-            # user_edit_form = UserEditForm(instance=request.user)
-            # profile_edit_form = ProfileEditForm(instance=request.user.profile)
-            profile = Profile.objects.get(user__username=username)
+            if request.method == 'POST':  # submitting profile updates
+                user_edit_form = UserEditForm(request.POST, instance=request.user)
+                profile_edit_form = ProfileEditForm(request.POST, instance=request.user.profile)
 
-        # context['user_edit_form'] = user_edit_form
-        # context['profile_edit_form'] = profile_edit_form
+                if all([user_edit_form.is_valid(), profile_edit_form.is_valid()]):
+                    user_edit_form.save()
+                    profile_edit_form.save()
+            elif request.GET.get('editing'):  # trying to edit profile
+                template_name = 'daily_quote/profile_editing.html'
+                user_edit_form = UserEditForm(instance=request.user)
+                profile_edit_form = ProfileEditForm(instance=request.user.profile)
+        else:  # guest profile page
+            template_name = 'daily_quote/profile_guest.html'
+            profile = Profile.objects.get(user__username=username)
 
         quoterank = profile.recommend()
 
+        context['user_edit_form'] = user_edit_form
+        context['profile_edit_form'] = profile_edit_form
         context['profile'] = profile
         context['quote'] = quoterank.quote
         context['rank'] = quoterank.rank
         context['quotes'] = Quote.objects.filter(profile=profile)
 
     except Profile.DoesNotExist:
-        raise Http404("Profile Does Not Exist")
+        raise Http404("Profile Does Not Exist", request.user.username, username)
 
-    return render(request, 'daily_quote/profile.html', context)
+    return render(request, template_name, context)
 
 
 def rank_quote(request, rank=0):
@@ -78,3 +84,4 @@ def rank_quote(request, rank=0):
     }
 
     return render(request, 'daily_quote/profile.html', context)
+

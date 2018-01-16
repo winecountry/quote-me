@@ -1,13 +1,84 @@
 #profile_container {
+  // push content below fixed navigation bar
   margin-top: 8%;
   width: 100vw;
+
+  // position in the center in the home view
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+
+  &.active {
+    // display on the right in the profile view
+    justify-content: flex-end;
+  }
 
   #profile {
+    // pin to left
     position: fixed;
     left: 0;
-    max-width: 25vw;
-    padding-left: 5vw;
+    top: 14%;
+
+    // display as centered column
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    // the sum of the max-width and padding should be
+    // the complement of the width of #quote_container (including padding)
+    width: 30vw;
+    margin: 0 2vw 0 3vw;
+
+    height: 80vh;
+    overflow: hidden;
+    background: $accent-color fixed;
+
+    #profile-header {
+      // display in horizontally centered row
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background-color: $theme-color-main;
+      color: $accent-color;
+      padding: 0 20px;
+
+      h3 {
+        font-weight: normal;
+        margin: 20px 0;
+      }
+
+      a {
+        color: inherit;
+      }
+    }
+  }
+
+  #profile-editing, #profile-guest, #profile-user {
+    display: flex;
+    flex-direction: column;
+    width: 27vw;
+
+    p {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 15px 0;
+      flex-wrap: wrap;
+
+      span.helptext {
+        flex-basis: 100%;
+      }
+    }
+  }
+
+  #profile-editing {
+    textarea {
+      // ensure bounds don't overflow parent
+      flex-basis: 100%;
+    }
   }
 }
