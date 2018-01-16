@@ -1,9 +1,6 @@
 from django.contrib.auth.models import AnonymousUser, User
 from django.test import LiveServerTestCase, TransactionTestCase
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from os import environ
 
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
