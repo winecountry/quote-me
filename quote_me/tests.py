@@ -1,11 +1,13 @@
+from os import environ
+
 from django.contrib.auth.models import AnonymousUser, User
 from django.test import LiveServerTestCase, TestCase, TransactionTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from os import environ
+from selenium.webdriver.support.ui import WebDriverWait
 
-from daily_quote.models import Author, Quote
+from daily_quote.models import Author, Profile, Quote
 
 
 class LoginTestCase(TransactionTestCase):
@@ -65,6 +67,45 @@ class SignupTestCase(TransactionTestCase):
         self.assertEqual(response.context['user'], user)
 
 class FunctionalTestCase(LiveServerTestCase):
+    signup_url = 'http://127.0.0.1:8000/signup/'
+    profile_url = 'http://127.0.0.1:8000/alice/'
+    home_url = 'http://127.0.0.1:8000/'
+    login_url = 'http://127.0.0.1:8000/login/'
+    logout_url = 'http://127.0.0.1:8000/logout/'
+
+
+    def signup(self):
+        selenium = self.selenium
+        selenium.get(self.signup_url)
+
+        first_name = selenium.find_element_by_id('id_first_name')
+        last_name = selenium.find_element_by_id('id_last_name')
+        username = selenium.find_element_by_id('id_username')
+        email = selenium.find_element_by_id('id_email')
+        password1 = selenium.find_element_by_id('id_password1')
+        password2 = selenium.find_element_by_id('id_password2')
+
+        first_name.send_keys('alice')
+        username.send_keys('alice')
+        email.send_keys('alice@gmail.com')
+        password1.send_keys('pass1234')
+        password2.send_keys('pass1234')
+        
+        selenium.find_element_by_id('submit-button').click()
+    
+    def login(self):
+        selenium = self.selenium
+        selenium.get(self.login_url)
+
+        username = selenium.find_element_by_id('id_username')
+        password = selenium.find_element_by_id('id_password')
+
+        username.send_keys('alice')
+        password.send_keys('pass1234')
+        
+        selenium.find_element_by_id('submit-button').click()
+
+class FunctionalTests(FunctionalTestCase):
 
     def setUp(self):
         if "TRAVIS" in environ:
@@ -80,29 +121,17 @@ class FunctionalTestCase(LiveServerTestCase):
             self.selenium = webdriver.Remote(desired_capabilities=capabilities, command_executor="http://%s/wd/hub" % hub_url)
         else:   
             self.selenium = webdriver.Safari()
-            super(FunctionalTestCase, self).setUp()
+            super(FunctionalTests, self).setUp()
 
     def tearDown(self):
         self.selenium.quit()
-        super(FunctionalTestCase, self).tearDown()
+        super(FunctionalTests, self).tearDown()
 
-    def test(self):
-        assert True
+    def test_register(self):
+        selenium = self.selenium
+        self.signup()
+        wait = WebDriverWait(selenium, 10)
+        wait.until(lambda selenium: selenium.current_url != self.signup_url)
+        print(selenium.current_url)
 
-#    def test_page_load(self):
-#        selenium = self.selenium
-#        selenium.get('http://localhost:8000')
-#        
-#        assert "No results found." not in selenium.page_source
-
-#    def test_register(self):
-#        selenium = self.selenium
-#        selenium.get('http://127.0.0.1:8000/signup/')
-#        first_name = selenium.find_element_by_id('id_first_name')
-#        last_name = selenium.find_element_by_id('id_last_name')
-#        username = selenium.find_element_by_id('id_username')
-#        email = selenium.find_element_by_id('id_email')
-#        password1 = selenium.find_element_by_id('id_password1')
-#        password2 = selenium.find_element_by_id('id_password2')
-#
-#        submit = selenium.find_element_by_name()
+        assert 'alice' in selenium.page_source
