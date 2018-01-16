@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 
 from daily_quote.models import Profile, Quote
 from quote_me.tests import FunctionalTestCase

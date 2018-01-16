@@ -1,8 +1,7 @@
 from django.contrib.auth.models import AnonymousUser, User
-from django.test import LiveServerTestCase, TestCase, TransactionTestCase
+from django.test import LiveServerTestCase, TransactionTestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from os import environ
 
@@ -108,6 +107,8 @@ class FunctionalTestCase(LiveServerTestCase):
     def signup(self):
         selenium = self.selenium
         selenium.get(self.signup_url)
+        wait = WebDriverWait(selenium, 10)
+        wait.until(expected_conditions.presence_of_element_located((By.ID, 'id_first_name')))
 
         first_name = selenium.find_element_by_id('id_first_name')
         last_name = selenium.find_element_by_id('id_last_name')
