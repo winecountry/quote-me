@@ -8,6 +8,8 @@
     <aside id="profile">
         <h3>{{ profile.user.username }}</h3>
         <p>{{ profile.bio }}</p>
+        {{ user_edit_form.as_p }}
+        {{ profile_edit_form.as_p }}
     </aside>
 {% endblock profile_info %}
 
