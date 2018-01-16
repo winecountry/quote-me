@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.forms import inlineformset_factory
 
-from daily_quote.forms import ProfileEditForm, UserEditForm
+#from daily_quote.forms import ProfileEditForm, UserEditForm
 from daily_quote.models import Profile
 
 
