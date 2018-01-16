@@ -108,9 +108,8 @@ class FunctionalTestCase(LiveServerTestCase):
         selenium = self.selenium
         selenium.get(self.signup_url)
         wait = WebDriverWait(selenium, 10)
-        wait.until(expected_conditions.presence_of_element_located((By.ID, 'id_first_name')))
-
-        first_name = selenium.find_element_by_id('id_first_name')
+        print(selenium.page_source)
+        first_name = wait.until(expected_conditions.presence_of_element_located((By.ID, 'id_first_name')))
         last_name = selenium.find_element_by_id('id_last_name')
         username = selenium.find_element_by_id('id_username')
         email = selenium.find_element_by_id('id_email')
@@ -127,7 +126,7 @@ class FunctionalTestCase(LiveServerTestCase):
 
     def login(self):
         selenium = self.selenium
-        selenium.get('http://127.0.0.1:8000/login/')
+        selenium.get(self.login_url)
 
         username = selenium.find_element_by_id('id_username')
         password = selenium.find_element_by_id('id_password')
