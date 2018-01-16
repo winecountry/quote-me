@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 from daily_quote.models import Profile, Quote, QuoteRank
-from quote_me.tests import FunctionalTestCase
+#from quote_me.tests import FunctionalTestCase
 
 
 class DailyQuoteTests(TestCase):
